@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <android.support.constraint.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/poster_iv"
+            android:layout_width="match_parent"
+            android:layout_height="300dp"
+            android:adjustViewBounds="true"
+            android:contentDescription="@string/movie_discovery_image_of_movie_poster"
+            android:cropToPadding="true"
+            android:minHeight="300dp"
+            android:paddingEnd="4dp"
+            android:paddingStart="8dp"
+            android:paddingTop="8dp"
+            android:scaleType="centerInside"
+            tools:src="@drawable/sample_discovery_image" />
+
+        <ImageView
+            android:id="@+id/no_poster_available_iv"
+            android:layout_width="match_parent"
+            android:layout_height="250dp"
+            android:adjustViewBounds="true"
+            android:contentDescription="@string/movie_discovery_image_of_movie_poster"
+            android:minHeight="300dp"
+            android:paddingEnd="4dp"
+            android:paddingStart="8dp"
+            android:paddingTop="8dp"
+            android:scaleType="centerInside" />
+
+        <TextView
+            android:id="@+id/no_poster_available_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:padding="16dp"
+            android:text="@string/no_poster"
+            android:textColor="@color/background_light"
+            android:textSize="12sp"
+            app:layout_constraintBottom_toBottomOf="@+id/no_poster_available_iv" />
+
+    </android.support.constraint.ConstraintLayout>
+
+    <TextView
+        android:id="@+id/movie_title_poster_tv"
+        style="@style/MovieTextTheme"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ellipsize="end"
+        android:fontFamily="sans-serif-medium"
+        android:gravity="center"
+        android:maxLines="2"
+        android:paddingBottom="24dp"
+        android:paddingEnd="4dp"
+        android:paddingStart="8dp"
+        android:paddingTop="4dp"
+        android:textAppearance="?android:textAppearanceMedium"
+        android:textColor="@color/colorAccent"
+        tools:text="This is the title of a movie" />
+
+</LinearLayout>
