@@ -1,9 +1,10 @@
-package com.example.peter.popularmovies2;
+package com.example.peter.popularmovies2.activities;
 
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 
+import com.example.peter.popularmovies2.R;
 import com.example.peter.popularmovies2.app.Constants;
 import com.example.peter.popularmovies2.databinding.ActivityMovieDetailBinding;
 import com.example.peter.popularmovies2.model.Movie;
@@ -17,7 +18,7 @@ import java.net.URL;
  * Manages the detail view
  */
 
-public class MovieDetail extends AppCompatActivity {
+public class MovieDetailActivity extends AppCompatActivity {
 
     @Override
     public void onCreate(Bundle savedInstanceState) {

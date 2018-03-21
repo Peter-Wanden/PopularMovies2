@@ -6,7 +6,7 @@ import android.net.NetworkInfo;
 import android.net.Uri;
 import android.util.Log;
 
-import com.example.peter.popularmovies2.MovieDiscovery;
+import com.example.peter.popularmovies2.activities.MovieDiscoveryActivity;
 import com.example.peter.popularmovies2.app.Constants;
 
 import java.io.IOException;
@@ -46,7 +46,7 @@ public class NetworkUtils {
 
         // Get a reference to the ConnectivityManager to check state of network connectivity
         ConnectivityManager connMgr = (ConnectivityManager)
-                context.getSystemService(MovieDiscovery.CONNECTIVITY_SERVICE);
+                context.getSystemService(MovieDiscoveryActivity.CONNECTIVITY_SERVICE);
 
         // Get details on the currently active default data network
         NetworkInfo networkInfo = null;

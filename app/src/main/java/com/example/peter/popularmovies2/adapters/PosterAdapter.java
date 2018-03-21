@@ -1,4 +1,4 @@
-package com.example.peter.popularmovies2;
+package com.example.peter.popularmovies2.adapters;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
@@ -8,6 +8,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.example.peter.popularmovies2.R;
 import com.example.peter.popularmovies2.app.Constants;
 import com.example.peter.popularmovies2.model.Movie;
 import com.example.peter.popularmovies2.utils.NetworkUtils;

@@ -1,4 +1,4 @@
-package com.example.peter.popularmovies2;
+package com.example.peter.popularmovies2.activities;
 
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -7,6 +7,8 @@ import android.preference.Preference;
 import android.preference.PreferenceFragment;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
+
+import com.example.peter.popularmovies2.R;
 
 /**
  * Created by peter on 20/03/2018.

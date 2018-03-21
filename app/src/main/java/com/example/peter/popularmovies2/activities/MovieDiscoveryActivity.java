@@ -1,4 +1,4 @@
-package com.example.peter.popularmovies2;
+package com.example.peter.popularmovies2.activities;
 
 import android.app.LoaderManager;
 import android.content.Intent;
@@ -14,6 +14,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
+import com.example.peter.popularmovies2.adapters.PosterAdapter;
+import com.example.peter.popularmovies2.R;
 import com.example.peter.popularmovies2.app.Constants;
 import com.example.peter.popularmovies2.model.Movie;
 import com.example.peter.popularmovies2.utils.MovieLoader;
@@ -21,7 +23,7 @@ import com.example.peter.popularmovies2.utils.NetworkUtils;
 
 import java.util.ArrayList;
 
-public class MovieDiscovery extends AppCompatActivity implements
+public class MovieDiscoveryActivity extends AppCompatActivity implements
         LoaderManager.LoaderCallbacks<ArrayList<Movie>>,
         PosterAdapter.PosterAdapterOnClickHandler,
         SharedPreferences.OnSharedPreferenceChangeListener {
@@ -167,15 +169,15 @@ public class MovieDiscovery extends AppCompatActivity implements
     @Override
     public void onClick(Movie selectedMovie, int adapterPosition) {
 
-        // Intent to open MovieDetail
-        Intent movieDetailIntent = new Intent(MovieDiscovery.this, MovieDetail.class);
+        // Intent to open MovieDetailActivity
+        Intent movieDetailIntent = new Intent(MovieDiscoveryActivity.this, MovieDetailActivity.class);
         movieDetailIntent.putExtra(Constants.SELECTED_MOVIE_KEY, selectedMovie);
         startActivity(movieDetailIntent);
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.main, menu);
+        getMenuInflater().inflate(R.menu.bottom_navigation_bar_menu, menu);
         return true;
     }
 

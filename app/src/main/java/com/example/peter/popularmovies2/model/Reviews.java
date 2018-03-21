@@ -5,6 +5,7 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 /**
+ * Todo - Complete review object
  * Created by peter on 21/03/2018.
  * This class holds a Review object and implements parcelable so we can move instances of it
  * between classes and saved instance state.
