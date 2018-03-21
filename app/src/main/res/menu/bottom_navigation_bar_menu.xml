@@ -1,14 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    tools:context="com.example.peter.popularmovies2.activities.MovieDiscoveryActivity">
+<menu
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
-        android:id="@+id/action_settings"
+        android:id="@+id/movies_rated_top"
         android:icon="@drawable/ic_filter"
         android:orderInCategory="1"
-        android:title="@string/settings_menu_item"
-        app:showAsAction="ifRoom" />
+        android:title="@string/movies_top_rated"
+        app:showAsAction="ifRoom"/>
+
+    <item
+        android:id="@+id/movies_most_popular"
+        android:icon="@drawable/ic_filter"
+        android:orderInCategory="2"
+        android:title="@string/movies_most_popular"
+        app:showAsAction="ifRoom"/>
+
+    <item
+        android:id="@+id/movies_favorites"
+        android:icon="@drawable/ic_filter"
+        android:orderInCategory="3"
+        android:title="@string/movies_favorite"
+        app:showAsAction="ifRoom"/>
 
 </menu>

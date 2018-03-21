@@ -6,8 +6,10 @@
     <!-- Settings Activity Title [CHAR LIMIT=NONE] -->
     <string name="settings_title">Popular Movie Settings</string>
 
-    <!-- Settings Menu Item [CHAR LIMIT=NONE] -->
-    <string name="settings_menu_item">Settings</string>
+    <!-- Bottom navigation bar menu items[CHAR LIMIT=NONE] -->
+    <string name="movies_top_rated">Top rated</string>
+    <string name="movies_most_popular">Popular</string>
+    <string name="movies_favorite">Favourites</string>
 
     <!-- Strings for Order-By preference settings[CHAR LIMIT=30] -->
     <string name="settings_order_by_label">Order By</string>

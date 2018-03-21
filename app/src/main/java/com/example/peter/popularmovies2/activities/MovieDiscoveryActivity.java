@@ -1,5 +1,6 @@
 package com.example.peter.popularmovies2.activities;
 
+import android.support.v4.app.FragmentManager;
 import android.app.LoaderManager;
 import android.content.Intent;
 import android.content.Loader;
@@ -7,16 +8,14 @@ import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
-
 import com.example.peter.popularmovies2.adapters.PosterAdapter;
 import com.example.peter.popularmovies2.R;
 import com.example.peter.popularmovies2.app.Constants;
+import com.example.peter.popularmovies2.fragments.MovieGridViewFragment;
 import com.example.peter.popularmovies2.model.Movie;
 import com.example.peter.popularmovies2.utils.MovieLoader;
 import com.example.peter.popularmovies2.utils.NetworkUtils;
@@ -28,11 +27,10 @@ public class MovieDiscoveryActivity extends AppCompatActivity implements
         PosterAdapter.PosterAdapterOnClickHandler,
         SharedPreferences.OnSharedPreferenceChangeListener {
 
+    // Todo -
+
     // Loader id
     private static final int POSTER_LOADER_ID = 100;
-
-    // Adapter instance
-    private PosterAdapter mPosterAdapter;
 
     // TextView that is displayed when the movie list is empty
     private TextView mEmptyStateTextView;
@@ -45,34 +43,19 @@ public class MovieDiscoveryActivity extends AppCompatActivity implements
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_movie_discovery);
 
+        /* Instantiate a movie view fragment */
+        MovieGridViewFragment popularMovies = new MovieGridViewFragment();
+        /* Add it to the main display */
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        fragmentManager.beginTransaction()
+                .add(R.id.movie_discovery_fragment_container_recycler_view, popularMovies)
+                .commit();
+
         /* Get a ref to the loading indicator */
         loadingIndicator = findViewById(R.id.loading_indicator);
 
-        /* Get a reference to the recycler view */
-        RecyclerView mRecyclerView = findViewById(R.id.posters_rv);
         /* Get a reference to the empty view */
         mEmptyStateTextView = findViewById(R.id.empty_view);
-
-        /* GridLayoutManager is responsible for measuring and positioning item views within a
-         * RecyclerView into a grid layout.
-         */
-        GridLayoutManager layoutManager = new GridLayoutManager(this, getResources().getInteger(R.integer.num_columns));
-        layoutManager.getHeight();
-
-        /* Connect the layout manager to the RecyclerView */
-        mRecyclerView.setLayoutManager(layoutManager);
-
-        /* Developer docs recommend using this performance improvement if all of the views are the
-         * same size. They are actually not, as some are text and some are images. The use of
-         * setHasFixedSize here is to force the views to be of equal size.
-         */
-        mRecyclerView.setHasFixedSize(true);
-
-        /* Create a new adapter that takes an empty list of Movie objects */
-        mPosterAdapter = new PosterAdapter(this, this);
-
-        /* Setting the adapter attaches it to the RecyclerView in our layout. */
-        mRecyclerView.setAdapter(mPosterAdapter);
 
         /* Get a reference to shared preferences */
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
@@ -184,7 +167,7 @@ public class MovieDiscoveryActivity extends AppCompatActivity implements
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
-        if (id == R.id.action_settings) {
+        if (id == R.id.movies_rated_top) {
             Intent settingsIntent = new Intent(this, SettingsActivity.class);
             startActivity(settingsIntent);
             return true;
