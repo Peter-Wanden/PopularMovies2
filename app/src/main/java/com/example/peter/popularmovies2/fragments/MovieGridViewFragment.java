@@ -1,22 +1,23 @@
 package com.example.peter.popularmovies2.fragments;
 
 
+import android.content.Context;
+import android.os.Parcelable;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.Loader;
-import android.support.v4.app.LoaderManager.LoaderCallbacks;
+import android.support.v4.app.Fragment;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
-import android.support.v4.app.Fragment;
-
-
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.example.peter.popularmovies2.R;
@@ -36,6 +37,8 @@ public class MovieGridViewFragment extends Fragment implements
         LoaderManager.LoaderCallbacks<ArrayList<Movie>>,
         PosterAdapter.PosterAdapterOnClickHandler {
 
+    private static final String TAG = MovieGridViewFragment.class.getSimpleName();
+
     // Loader id
     private static final int POSTER_LOADER_ID = 100;
     // Instantiate adapter
@@ -43,37 +46,49 @@ public class MovieGridViewFragment extends Fragment implements
     // Instantiate RecyclerView
     protected RecyclerView mRecyclerView;
     // Instantiate LayoutManager
-    protected GridLayoutManager layoutManager;
+    protected GridLayoutManager mLayoutManager;
+    // Interface that triggers a callback in MovieDiscoveryActivity
+    OnMovieSelectedListener mCallback;
     // Loading indicator
-    private View loadingIndicator;
+    private View mLoadingIndicator;
     // TextView that is displayed when the movie list is empty
     private TextView mEmptyStateTextView;
-    // The list of movies
-    protected ArrayList<Movie> movies;
+    // ToDo - shouldn't need this
+    private ScrollView mScrollView;
 
     // Mandatory empty constructor for instantiating the fragment
     public MovieGridViewFragment(){}
+
+    // This is where the fragment attaches itself to it's host activity
+    // The callback will be triggered in onCreateView below.
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        // Make sure the host activity has implemented the interface
+        try {
+            mCallback = (OnMovieSelectedListener) context;
+        } catch (ClassCastException e) {
+            throw new ClassCastException(context.toString()
+                    + "Must implement OnMovieSelectedListener");
+        }
+    }
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState ) {
         View rootView = inflater.inflate(R.layout.fragment_movie_recycler_view, container, false);
 
-        // todo - get the data in the bundle that was sent to this fragment
+        // todo - get the data (on bottom navigation bar clicked) in the bundle that was sent to this fragment
+        // todo - Implement onSaveInstanceState
+        // todo - Save adapter position (or is it scroll position) and restore it on rotate
+        // todo - set title to top/pop/fav
+        // todo - pass the clicked movie object back to the main activity for processing
 
-        // todo - this may not be needed. See comment at {@link onSaveInstanceState}
-        if(savedInstanceState !=null) {
-            movies = savedInstanceState.getParcelableArrayList("movieList");
-            // Update the data source in the adapter.
-            mPosterAdapter.updateMovies(movies);
-            // Turn off the empty state text view.
-            mEmptyStateTextView.setVisibility(View.GONE);
-        }
 
         /* Get a ref to the loading indicator */
-        loadingIndicator = getActivity().findViewById(R.id.loading_indicator);
+        mLoadingIndicator = rootView.findViewById(R.id.loading_indicator);
 
         /* Get a reference to the empty view */
-        mEmptyStateTextView = getActivity().findViewById(R.id.empty_view);
+        mEmptyStateTextView = rootView.findViewById(R.id.empty_view);
 
         /* Get a reference to the recycler view */
         mRecyclerView = rootView.findViewById(R.id.fragment_movie_recycler_view);
@@ -84,11 +99,11 @@ public class MovieGridViewFragment extends Fragment implements
         /* GridLayoutManager is responsible for measuring and positioning item views within a
          * RecyclerView into a grid layout.
          */
-        layoutManager = new GridLayoutManager(getActivity(), getResources().getInteger(R.integer.num_columns));
-        layoutManager.getHeight();
+        mLayoutManager = new GridLayoutManager(getActivity(), getResources().getInteger(R.integer.num_columns));
+        mLayoutManager.getHeight();
 
         /* Connect the layout manager to the RecyclerView */
-        mRecyclerView.setLayoutManager(layoutManager);
+        mRecyclerView.setLayoutManager(mLayoutManager);
 
         /* Developer docs recommend using this performance improvement if all of the views are the
          * same size. They are actually not, as some are text and some are images. The use of
@@ -98,6 +113,8 @@ public class MovieGridViewFragment extends Fragment implements
 
         /* Setting the adapter attaches it to the RecyclerView in our layout. */
         mRecyclerView.setAdapter(mPosterAdapter);
+
+        /*
 
         /* Check to see if we have a valid network connection */
         if (NetworkUtils.getNetworkStatus(getActivity())) {
@@ -110,9 +127,15 @@ public class MovieGridViewFragment extends Fragment implements
 
         } else {
             // Turn the loading indicator off
-            loadingIndicator.setVisibility(View.GONE);
+            mLoadingIndicator.setVisibility(View.GONE);
             // Update the empty state text view with network connection error message
             mEmptyStateTextView.setText(R.string.movie_discovery_no_network);
+        }
+                /* Get a reference to scrollview */
+        if (savedInstanceState != null && savedInstanceState.containsKey("recycler_view_position")) {
+            int position = savedInstanceState.getInt("recycler_view_position");
+            Log.e(TAG, "RecyclerView position retreived from onSavedInstance state is: " + position);
+            mRecyclerView.scrollToPosition(position);
         }
 
         /* return the view */
@@ -121,21 +144,20 @@ public class MovieGridViewFragment extends Fragment implements
 
     @Override
     public void onClick(Movie clickedMovie, int adapterPosition) {
-        // Todo - open the movie detail activity from here
+        // Todo - pass the move to MovieDiscoveryActivity so it can open the detail view activity
     }
 
     @NonNull
     @Override
     public Loader<ArrayList<Movie>> onCreateLoader(int loaderId, @Nullable Bundle bundle) {
-        // ToDo - Pass in the movie search type as the second parameter
+        // ToDo - Pass in the movie search type as the second parameter. Get this from the bottom navigation onClick
         return new MovieLoader(getActivity(), 1);
     }
-
 
     @Override
     public void onLoadFinished(@NonNull Loader<ArrayList<Movie>> loader, ArrayList<Movie> movies) {
         // Hide the loading indicator as data has been loaded.
-        loadingIndicator.setVisibility(View.GONE);
+        mLoadingIndicator.setVisibility(View.GONE);
         // Assume no data.
         mEmptyStateTextView.setText(R.string.movie_discovery_no_movies);
         // However if there is data.
@@ -153,9 +175,17 @@ public class MovieGridViewFragment extends Fragment implements
         mPosterAdapter.updateMovies(null);
     }
 
-    // Todo - I don't think we need this if w are using loaders as they will survive state changes
     @Override
-    public void onSaveInstanceState(@NonNull Bundle currentState) {
-        currentState.putParcelableArrayList("movieList", movies);
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        int scrollPosition = mLayoutManager.findFirstVisibleItemPosition();
+        Log.e(TAG, "RecyclerView position on exit: " + scrollPosition);
+        outState.putInt("recycler_view_position", scrollPosition);
     }
+
+    public interface OnMovieSelectedListener {
+        // Callback method
+        void onMovieSelected(Movie movie);
+    }
+
 }

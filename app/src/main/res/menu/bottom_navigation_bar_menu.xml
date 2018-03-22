@@ -5,23 +5,26 @@
 
     <item
         android:id="@+id/movies_rated_top"
-        android:icon="@drawable/ic_filter"
-        android:orderInCategory="1"
+        android:icon="@drawable/ic_top_star_black"
         android:title="@string/movies_top_rated"
-        app:showAsAction="ifRoom"/>
+        app:showAsAction="always" />
 
     <item
         android:id="@+id/movies_most_popular"
-        android:icon="@drawable/ic_filter"
-        android:orderInCategory="2"
+        android:icon="@drawable/ic_popular_black"
         android:title="@string/movies_most_popular"
-        app:showAsAction="ifRoom"/>
+        app:showAsAction="always" />
 
     <item
         android:id="@+id/movies_favorites"
-        android:icon="@drawable/ic_filter"
-        android:orderInCategory="3"
+        android:icon="@drawable/ic_favorite_black_24px"
         android:title="@string/movies_favorite"
-        app:showAsAction="ifRoom"/>
+        app:showAsAction="always" />
+
+    <!--
+
+
+
+    -->
 
 </menu>
