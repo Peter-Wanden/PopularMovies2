@@ -7,58 +7,24 @@
     android:layout_height="match_parent"
     android:layout_width="match_parent">
 
-    <!-- Empty view is only visible when the list has no items. -->
-    <TextView
-        android:id="@+id/empty_view"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:contentDescription="@string/movie_discovery_no_network"
-        android:textAppearance="?android:textAppearanceMedium"
-        android:textColor="@android:color/white"
-        tools:text="No network connection."
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"/>
-
-    <!-- Loading indicator for user feedback between queries to tMDB -->
-    <ProgressBar
-        android:id="@+id/loading_indicator"
-        style="@style/Widget.AppCompat.ProgressBar"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"/>
-
-    <!-- Container for recycler view / grid view fragment -->
-    <android.support.design.widget.CoordinatorLayout
-        android:id="@+id/movie_discovery_fragment_container_for_recycler_view"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toTopOf="@id/bottom_navigation_widget"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent">
-
-        <FrameLayout
+    <FrameLayout
             android:id="@+id/movie_discovery_fragment_container_recycler_view"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
-
-    </android.support.design.widget.CoordinatorLayout>
+            android:layout_height="match_parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/bottom_navigation_widget"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"/>
 
     <android.support.design.widget.BottomNavigationView
         android:id="@+id/bottom_navigation_widget"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@+id/movie_discovery_fragment_container_for_recycler_view"
+        app:layout_constraintTop_toBottomOf="@+id/movie_discovery_fragment_container_recycler_view"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         android:background="@color/colorPrimaryDark"
         app:menu="@menu/bottom_navigation_bar_menu"/>
-
 </android.support.constraint.ConstraintLayout>
 

@@ -1,10 +1,8 @@
 package com.example.peter.popularmovies2.utils;
 
-import android.content.AsyncTaskLoader;
 import android.content.Context;
-
+import android.support.v4.content.AsyncTaskLoader;
 import com.example.peter.popularmovies2.model.Movie;
-
 import java.util.ArrayList;
 
 /**
@@ -20,8 +18,8 @@ public class MovieLoader extends AsyncTaskLoader<ArrayList<Movie>> {
     /**
      * Constructs a new {@link MovieLoader} that returns a list of movies.
      *
-     * @param context - of the activity
-     * @param movieSearchType - The type of search requested.
+     * @param context - of the activity or fragment making the request.
+     * @param movieSearchType - the type of search requested.
      */
     public MovieLoader(Context context, int movieSearchType) {
         super(context);
