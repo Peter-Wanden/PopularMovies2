@@ -20,6 +20,7 @@ public class Constants {
     // Search types
     public static final int MOST_POPULAR = 0;
     public static final int HIGHEST_RATED = 1;
+    public static final int FAVORITES = 2;
     public static final String PATH_MOVIE = "movie";
     public static final String POPULARITY = "popular";
     public static final String RATING = "top_rated";
@@ -45,6 +46,7 @@ public class Constants {
     public static final String MOVIE_USER_RATING = "vote_average";
     public static final String MOVIE_RELEASE_DATE = "release_date";
 
-    /* Strings used as Key - pair's */
+    /* Strings used as Key - pair's for moving objects about */
     public static final String SELECTED_MOVIE_KEY = "selected_movie";
+    public static final String SEARCH_TYPE_KEY = "search_type";
 }

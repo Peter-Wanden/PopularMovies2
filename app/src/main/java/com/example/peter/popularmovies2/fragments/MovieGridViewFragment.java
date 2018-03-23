@@ -22,6 +22,7 @@ import android.widget.TextView;
 
 import com.example.peter.popularmovies2.R;
 import com.example.peter.popularmovies2.adapters.PosterAdapter;
+import com.example.peter.popularmovies2.app.Constants;
 import com.example.peter.popularmovies2.model.Movie;
 import com.example.peter.popularmovies2.utils.MovieLoader;
 import com.example.peter.popularmovies2.utils.NetworkUtils;
@@ -47,31 +48,17 @@ public class MovieGridViewFragment extends Fragment implements
     protected RecyclerView mRecyclerView;
     // Instantiate LayoutManager
     protected GridLayoutManager mLayoutManager;
-    // Interface that triggers a callback in MovieDiscoveryActivity
-    OnMovieSelectedListener mCallback;
+    // Interface to activity
+    OnMovieSelectedListener mMovieCallback;
     // Loading indicator
     private View mLoadingIndicator;
     // TextView that is displayed when the movie list is empty
     private TextView mEmptyStateTextView;
-    // ToDo - shouldn't need this
-    private ScrollView mScrollView;
+    // The type of search required
+    private int mMovieSearchType;
 
     // Mandatory empty constructor for instantiating the fragment
     public MovieGridViewFragment(){}
-
-    // This is where the fragment attaches itself to it's host activity
-    // The callback will be triggered in onCreateView below.
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        // Make sure the host activity has implemented the interface
-        try {
-            mCallback = (OnMovieSelectedListener) context;
-        } catch (ClassCastException e) {
-            throw new ClassCastException(context.toString()
-                    + "Must implement OnMovieSelectedListener");
-        }
-    }
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState ) {
@@ -82,7 +69,8 @@ public class MovieGridViewFragment extends Fragment implements
         // todo - Save adapter position (or is it scroll position) and restore it on rotate
         // todo - set title to top/pop/fav
         // todo - pass the clicked movie object back to the main activity for processing
-
+        // Adapter has a click listener interface to fragment. This interface will need to be used
+        // to pass a movie object back to the MovieDiscoveryActivity so it can launch the movie detail intent
 
         /* Get a ref to the loading indicator */
         mLoadingIndicator = rootView.findViewById(R.id.loading_indicator);
@@ -114,8 +102,6 @@ public class MovieGridViewFragment extends Fragment implements
         /* Setting the adapter attaches it to the RecyclerView in our layout. */
         mRecyclerView.setAdapter(mPosterAdapter);
 
-        /*
-
         /* Check to see if we have a valid network connection */
         if (NetworkUtils.getNetworkStatus(getActivity())) {
 
@@ -145,13 +131,14 @@ public class MovieGridViewFragment extends Fragment implements
     @Override
     public void onClick(Movie clickedMovie, int adapterPosition) {
         // Todo - pass the move to MovieDiscoveryActivity so it can open the detail view activity
+        mMovieCallback.onMovieSelected(clickedMovie);
     }
 
     @NonNull
     @Override
     public Loader<ArrayList<Movie>> onCreateLoader(int loaderId, @Nullable Bundle bundle) {
         // ToDo - Pass in the movie search type as the second parameter. Get this from the bottom navigation onClick
-        return new MovieLoader(getActivity(), 1);
+        return new MovieLoader(getActivity(), mMovieSearchType);
     }
 
     @Override
@@ -183,9 +170,20 @@ public class MovieGridViewFragment extends Fragment implements
         outState.putInt("recycler_view_position", scrollPosition);
     }
 
-    public interface OnMovieSelectedListener {
-        // Callback method
-        void onMovieSelected(Movie movie);
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        // Make sure the host activity has implemented the OnMovieSelectedListener callback interface
+        try {
+            mMovieCallback = (OnMovieSelectedListener) context;
+        } catch (ClassCastException e) {
+            throw new ClassCastException(context.toString()
+                    + " must implement OnMovieSelectedListener");
+        }
     }
 
+    // OnMovieSelected interface, calls a method in the host activity named onMovieSelected
+    public interface OnMovieSelectedListener {
+        void onMovieSelected(Movie movie);
+    }
 }

@@ -29,7 +29,7 @@ public class MovieDetailActivity extends AppCompatActivity {
                 DataBindingUtil.setContentView(this, R.layout.activity_movie_detail);
 
         // Extract the parcelable data from the intent and turn it back into a Movie object
-        Movie selectedMovie = getIntent().getParcelableExtra("selected_movie");
+        Movie selectedMovie = getIntent().getParcelableExtra(Constants.SELECTED_MOVIE_KEY);
 
         // Load the backdrop
         if (selectedMovie.getBackdropImagePath() != null) {

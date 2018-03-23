@@ -5,8 +5,8 @@ import android.os.Parcelable;
 
 /**
  * Created by peter on 20/03/2018.
- * This class holds a movie object and implements parcelable so we can move instances of it
- * between classes and saved instance state.
+ * This class holds a movie object and implements parcelable so we can easily move instances of it
+ * between activities and save them in saved instance state.
  * @link https://plus.google.com/u/0/events/cfftk1qo4tjn7enecof6f9oes0o?authkey=CNu5uui-k5qAtQE
  */
 
@@ -71,7 +71,7 @@ public class Movie implements Parcelable {
         mMovieReleaseDate = movieReleaseDate;
     }
 
-    /* This is where we retrieve the values that were originally written to the parcel.
+    /* This is where we retrieve the values that were written to the parcel.
      * This constructor is usually private so that only the CREATOR can access it.
      */
     private Movie(Parcel in) {
@@ -83,6 +83,19 @@ public class Movie implements Parcelable {
         this.mSynopsis = in.readString();
         this.mUserRating = in.readDouble();
         this.mMovieReleaseDate = in.readString();
+    }
+
+    /* This is where we write the values we want to save to the parcel */
+    @Override
+    public void writeToParcel(Parcel out, int flags) {
+        out.writeInt(mId);
+        out.writeString(mTitle);
+        out.writeString(mOriginalTitle);
+        out.writeString(mImagePosterPath);
+        out.writeString(mImageBackdropPath);
+        out.writeString(mSynopsis);
+        out.writeDouble(mUserRating);
+        out.writeString(mMovieReleaseDate);
     }
 
     /* Returns the movie title */
@@ -124,18 +137,5 @@ public class Movie implements Parcelable {
     @Override
     public int describeContents() {
         return 0;
-    }
-
-    /* This is where we write the values we want to save to the parcel */
-    @Override
-    public void writeToParcel(Parcel out, int flags) {
-        out.writeInt(mId);
-        out.writeString(mTitle);
-        out.writeString(mOriginalTitle);
-        out.writeString(mImagePosterPath);
-        out.writeString(mImageBackdropPath);
-        out.writeString(mSynopsis);
-        out.writeDouble(mUserRating);
-        out.writeString(mMovieReleaseDate);
     }
 }

@@ -116,8 +116,8 @@ public class PosterAdapter extends RecyclerView.Adapter<PosterAdapter.PosterAdap
 
         } else {
 
-            /* If a valid movie poster URL endpoint is available:
-             * - Display the movies poster in the current ViewHolder
+            /* If a valid movie poster URL endpoint is available,
+             * display the movies poster in the current ViewHolder
              */
             posterAdapterViewHolder.listItemNoImageImageView.setVisibility(View.GONE);
             posterAdapterViewHolder.noPosterAvailableTextView.setVisibility(View.INVISIBLE);
@@ -133,7 +133,7 @@ public class PosterAdapter extends RecyclerView.Adapter<PosterAdapter.PosterAdap
 
     /**
      * This method simply returns the number of items to display. It is used behind the scenes
-     * by LayoutManager to help layout our Views and for animations.
+     * by LayoutManager to help layout Views and for animations.
      *
      * @return The number of items available
      */
@@ -142,6 +142,7 @@ public class PosterAdapter extends RecyclerView.Adapter<PosterAdapter.PosterAdap
         return mMovies.size();
     }
 
+    /* Used to replace the adapters data set */
     public void updateMovies(ArrayList<Movie> movies) {
         if (movies != null && !movies.isEmpty()) {
             mMovies.clear();

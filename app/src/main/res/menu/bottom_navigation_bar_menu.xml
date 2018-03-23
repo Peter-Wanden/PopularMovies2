@@ -4,7 +4,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
-        android:id="@+id/movies_rated_top"
+        android:id="@+id/movies_highest_rated"
         android:icon="@drawable/ic_top_star_black"
         android:title="@string/movies_top_rated"
         app:showAsAction="always" />
