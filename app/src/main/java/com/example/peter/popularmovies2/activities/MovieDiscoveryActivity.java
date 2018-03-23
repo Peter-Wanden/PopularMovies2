@@ -17,9 +17,6 @@ import com.example.peter.popularmovies2.model.Movie;
 public class MovieDiscoveryActivity extends AppCompatActivity implements
         BottomNavigationView.OnNavigationItemSelectedListener, MovieGridViewFragment.OnMovieSelectedListener {
 
-    // Todo - receive the clicked movie object from the fragment.
-    // todo - then open it in MovieDetail via an intent
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -54,49 +51,46 @@ public class MovieDiscoveryActivity extends AppCompatActivity implements
         // Switch through the menu item ID
         switch (item.getItemId()) {
 
-            // Top rated movies
+            // Top rated movies.
             case R.id.movies_highest_rated:
-                // Find the view, set the title
+                // Find the view, set the title.
                 setTitle(R.string.movies_top_rated);
-                // Create a fragment and bind it to the fragment view
-                MovieGridViewFragment topRatedFragment = (MovieGridViewFragment) fragmentManager.findFragmentById(R.id.fragment_movie_recycler_view);
-                // If the fragment does not exist yet create a new one
+                // Create a fragment and bind it to the fragment view.
+                MovieGridViewFragment topRatedFragment = (MovieGridViewFragment)
+                        fragmentManager.findFragmentById(R.id.fragment_movie_recycler_view);
+                // If the fragment does not exist yet create a new one.
                 if (topRatedFragment == null) {
                     topRatedFragment = new MovieGridViewFragment();
                 }
-                // Replace whatever is in the fragment container with our new fragment
-                fragmentTransaction.replace(R.id.movie_discovery_fragment_container_recycler_view, topRatedFragment).commit();
+                // Replace whatever is in the fragment container with our new fragment.
+                fragmentTransaction.replace(R.id.movie_discovery_fragment_container_recycler_view,
+                        topRatedFragment).commit();
+                // Set the search type within the new fragment.
+                topRatedFragment.setMovieSearchType(Constants.HIGHEST_RATED);
                 break;
 
-            // Most popular movies
+            // Most popular movies.
             case R.id.movies_most_popular:
                 setTitle(R.string.movies_most_popular);
-                MovieGridViewFragment mostPopularFragment = new MovieGridViewFragment();
-                Bundle bunPOP = new Bundle();
-                bunPOP.putInt(Constants.SEARCH_TYPE_KEY, Constants.MOST_POPULAR);
-                mostPopularFragment.setArguments(bunPOP);
-                FragmentTransaction ftPop = getSupportFragmentManager().beginTransaction();
-                ftPop.show(getSupportFragmentManager().findFragmentById(R.id.fragment_movie_recycler_view));
-//                if (mostPopularFragment == null) {
-//                    mostPopularFragment = new MovieGridViewFragment();
-//                }
-                ftPop.replace(R.id.movie_discovery_fragment_container_recycler_view,
+                MovieGridViewFragment mostPopularFragment = (MovieGridViewFragment)
+                        fragmentManager.findFragmentById(R.id.fragment_movie_recycler_view);
+                if (mostPopularFragment == null) {
+                    mostPopularFragment = new MovieGridViewFragment();
+                }
+                fragmentTransaction.replace(R.id.fragment_movie_recycler_view_container,
                         mostPopularFragment).commit();
+                mostPopularFragment.setMovieSearchType(Constants.MOST_POPULAR);
                 break;
 
             // Todo - implement favorites
             case R.id.movies_favorites:
                 setTitle(R.string.movies_favorite);
-                MovieGridViewFragment favoritesFragment = new MovieGridViewFragment();
-                Bundle bunFav = new Bundle();
-                bunFav.putInt(Constants.SEARCH_TYPE_KEY, Constants.FAVORITES);
-                favoritesFragment.setArguments(bunFav);
-                FragmentTransaction ftFav = getSupportFragmentManager().beginTransaction();
-                ftFav.show(getSupportFragmentManager().findFragmentById(R.id.fragment_movie_recycler_view));
-//                if (favoritesFragment == null) {
-//                    favoritesFragment = new MovieGridViewFragment();
-//                }
-                ftFav.replace(R.id.movie_discovery_fragment_container_recycler_view,
+                MovieGridViewFragment favoritesFragment = (MovieGridViewFragment)
+                        fragmentManager.findFragmentById(R.id.fragment_movie_recycler_view);
+                if (favoritesFragment == null) {
+                    favoritesFragment = new MovieGridViewFragment();
+                }
+                fragmentTransaction.replace(R.id.movie_discovery_fragment_container_recycler_view,
                         favoritesFragment).commit();
                 break;
         }

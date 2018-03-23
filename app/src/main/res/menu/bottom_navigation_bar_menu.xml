@@ -7,19 +7,19 @@
         android:id="@+id/movies_highest_rated"
         android:icon="@drawable/ic_top_star_black"
         android:title="@string/movies_top_rated"
-        app:showAsAction="always" />
+        app:showAsAction="ifRoom" />
 
     <item
         android:id="@+id/movies_most_popular"
         android:icon="@drawable/ic_popular_black"
         android:title="@string/movies_most_popular"
-        app:showAsAction="always" />
+        app:showAsAction="ifRoom" />
 
     <item
         android:id="@+id/movies_favorites"
         android:icon="@drawable/ic_favorite_black_24px"
         android:title="@string/movies_favorite"
-        app:showAsAction="always" />
+        app:showAsAction="ifRoom" />
 
     <!--
 

@@ -1,33 +1,25 @@
 package com.example.peter.popularmovies2.fragments;
 
-
 import android.content.Context;
-import android.os.Parcelable;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.Loader;
 import android.support.v4.app.Fragment;
-
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ScrollView;
 import android.widget.TextView;
+import java.util.ArrayList;
 
 import com.example.peter.popularmovies2.R;
 import com.example.peter.popularmovies2.adapters.PosterAdapter;
-import com.example.peter.popularmovies2.app.Constants;
 import com.example.peter.popularmovies2.model.Movie;
 import com.example.peter.popularmovies2.utils.MovieLoader;
 import com.example.peter.popularmovies2.utils.NetworkUtils;
-
-import java.util.ArrayList;
 
 /**
  * Created by peter on 21/03/2018.
@@ -37,8 +29,6 @@ import java.util.ArrayList;
 public class MovieGridViewFragment extends Fragment implements
         LoaderManager.LoaderCallbacks<ArrayList<Movie>>,
         PosterAdapter.PosterAdapterOnClickHandler {
-
-    private static final String TAG = MovieGridViewFragment.class.getSimpleName();
 
     // Loader id
     private static final int POSTER_LOADER_ID = 100;
@@ -64,15 +54,12 @@ public class MovieGridViewFragment extends Fragment implements
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState ) {
         View rootView = inflater.inflate(R.layout.fragment_movie_recycler_view, container, false);
 
-        // todo - get the data (on bottom navigation bar clicked) in the bundle that was sent to this fragment
         // todo - Implement onSaveInstanceState
-        // todo - Save adapter position (or is it scroll position) and restore it on rotate
-        // todo - set title to top/pop/fav
-        // todo - pass the clicked movie object back to the main activity for processing
+        // todo - Save adapter position (or is it scroll position) and restore it on rotate - Override onConfigurationChanged within this fragment see:
         // Adapter has a click listener interface to fragment. This interface will need to be used
         // to pass a movie object back to the MovieDiscoveryActivity so it can launch the movie detail intent
 
-        /* Get a ref to the loading indicator */
+        /* Get a reference to the loading indicator */
         mLoadingIndicator = rootView.findViewById(R.id.loading_indicator);
 
         /* Get a reference to the empty view */
@@ -117,27 +104,24 @@ public class MovieGridViewFragment extends Fragment implements
             // Update the empty state text view with network connection error message
             mEmptyStateTextView.setText(R.string.movie_discovery_no_network);
         }
-                /* Get a reference to scrollview */
+
+        /* Get a reference to scrollview */
         if (savedInstanceState != null && savedInstanceState.containsKey("recycler_view_position")) {
             int position = savedInstanceState.getInt("recycler_view_position");
-            Log.e(TAG, "RecyclerView position retreived from onSavedInstance state is: " + position);
             mRecyclerView.scrollToPosition(position);
         }
-
         /* return the view */
         return rootView;
     }
 
     @Override
     public void onClick(Movie clickedMovie, int adapterPosition) {
-        // Todo - pass the move to MovieDiscoveryActivity so it can open the detail view activity
         mMovieCallback.onMovieSelected(clickedMovie);
     }
 
     @NonNull
     @Override
     public Loader<ArrayList<Movie>> onCreateLoader(int loaderId, @Nullable Bundle bundle) {
-        // ToDo - Pass in the movie search type as the second parameter. Get this from the bottom navigation onClick
         return new MovieLoader(getActivity(), mMovieSearchType);
     }
 
@@ -163,14 +147,6 @@ public class MovieGridViewFragment extends Fragment implements
     }
 
     @Override
-    public void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);
-        int scrollPosition = mLayoutManager.findFirstVisibleItemPosition();
-        Log.e(TAG, "RecyclerView position on exit: " + scrollPosition);
-        outState.putInt("recycler_view_position", scrollPosition);
-    }
-
-    @Override
     public void onAttach(Context context) {
         super.onAttach(context);
         // Make sure the host activity has implemented the OnMovieSelectedListener callback interface
@@ -185,5 +161,10 @@ public class MovieGridViewFragment extends Fragment implements
     // OnMovieSelected interface, calls a method in the host activity named onMovieSelected
     public interface OnMovieSelectedListener {
         void onMovieSelected(Movie movie);
+    }
+
+    // Called by the parent activity when a button on the BottomNavigationBar is pressed
+    public void setMovieSearchType (int searchType) {
+        mMovieSearchType = searchType;
     }
 }
