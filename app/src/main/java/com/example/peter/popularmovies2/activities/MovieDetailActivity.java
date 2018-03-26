@@ -8,6 +8,7 @@ import com.example.peter.popularmovies2.R;
 import com.example.peter.popularmovies2.app.Constants;
 import com.example.peter.popularmovies2.databinding.ActivityMovieDetailBinding;
 import com.example.peter.popularmovies2.model.Movie;
+import com.example.peter.popularmovies2.utils.MovieLoader;
 import com.example.peter.popularmovies2.utils.NetworkUtils;
 import com.squareup.picasso.Picasso;
 
@@ -68,6 +69,9 @@ public class MovieDetailActivity extends AppCompatActivity {
 
         // Set the synopsis
         detailBinding.movieDetailDescriptionTv.setText(selectedMovie.getMovieSynopsis());
+
+        // Get the movie extra details
+
 
     }
 }

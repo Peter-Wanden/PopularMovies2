@@ -15,8 +15,7 @@ public class Constants {
     public static final String API_KEY = "api_key";
     public static final String API_KEY_VALUE = BuildConfig.API_KEY;
     public static final String APPEND_TO_RESPONSE = "append_to_response";
-    public static final String TRAILERS = "videos";
-    public static final String REVIEWS = "reviews";
+    public static final String EXTRAS = "videos,reviews";
     // Search types
     public static final int MOST_POPULAR = 0;
     public static final int HIGHEST_RATED = 1;

@@ -55,9 +55,7 @@ public class MovieGridViewFragment extends Fragment implements
         View rootView = inflater.inflate(R.layout.fragment_movie_recycler_view, container, false);
 
         // todo - Implement onSaveInstanceState
-        // todo - Save adapter position (or is it scroll position) and restore it on rotate - Override onConfigurationChanged within this fragment see:
-        // Adapter has a click listener interface to fragment. This interface will need to be used
-        // to pass a movie object back to the MovieDiscoveryActivity so it can launch the movie detail intent
+        // todo - Restore adapter position - See Sunshine app MainActivity OnLoadFinished!!!
 
         /* Get a reference to the loading indicator */
         mLoadingIndicator = rootView.findViewById(R.id.loading_indicator);
@@ -105,6 +103,7 @@ public class MovieGridViewFragment extends Fragment implements
             mEmptyStateTextView.setText(R.string.movie_discovery_no_network);
         }
 
+        // TODO - fix the scroll to position.
         /* Get a reference to scrollview */
         if (savedInstanceState != null && savedInstanceState.containsKey("recycler_view_position")) {
             int position = savedInstanceState.getInt("recycler_view_position");

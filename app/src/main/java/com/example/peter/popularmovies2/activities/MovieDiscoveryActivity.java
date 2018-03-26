@@ -14,8 +14,16 @@ import com.example.peter.popularmovies2.app.Constants;
 import com.example.peter.popularmovies2.fragments.MovieGridViewFragment;
 import com.example.peter.popularmovies2.model.Movie;
 
+/**
+ * TODO - 1. Get ALL of the data required for the next phase
+ * TODO - 2. Build a DbHelper / Database
+ * TODO - 3. Build a ContentProvider
+ * TODO - 4. Build a Contract
+ * TODO - When everything is running as it should be, and if there is time, implement suggestions.
+ */
 public class MovieDiscoveryActivity extends AppCompatActivity implements
-        BottomNavigationView.OnNavigationItemSelectedListener, MovieGridViewFragment.OnMovieSelectedListener {
+        BottomNavigationView.OnNavigationItemSelectedListener,
+        MovieGridViewFragment.OnMovieSelectedListener {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

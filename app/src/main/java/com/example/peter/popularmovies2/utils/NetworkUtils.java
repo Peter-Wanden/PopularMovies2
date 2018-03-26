@@ -90,7 +90,10 @@ public class NetworkUtils {
         searchUri.appendQueryParameter(Constants.API_KEY, Constants.API_KEY_VALUE).build();
 
         try {
-            return new URL(searchUri.toString());
+            URL url = new URL(searchUri.toString());
+            Log.e(LOG_TAG, "Search URL: " + url);
+
+            return url;
 
             // return new URL(searchUri.toString());
         } catch (MalformedURLException e) {
@@ -135,6 +138,26 @@ public class NetworkUtils {
         // Return the Url
         try {
             return new URL(getImageUrl.toString());
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    /**
+     * This method returns the requested movie details along with any video's and reviews.
+     * @param movieId - the Id of the selected movie.
+     * @return - A URL that queries the tMDB database.
+     */
+
+    public static URL getMovieAppendToResponseUrl (int movieId){
+
+        Uri.Builder getAppendedUrl = Uri.parse(Constants.BASE_SEARCH_URL).buildUpon();
+        getAppendedUrl.appendEncodedPath(String.valueOf(movieId));
+        getAppendedUrl.appendQueryParameter(Constants.API_KEY, Constants.API_KEY_VALUE);
+
+        try {
+            return new URL(getAppendedUrl.toString());
         } catch (MalformedURLException e) {
             e.printStackTrace();
             return null;
