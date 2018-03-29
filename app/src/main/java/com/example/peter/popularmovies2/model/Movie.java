@@ -115,6 +115,10 @@ public class Movie implements Parcelable {
         out.writeString(mMovieReleaseDate);
     }
 
+    /* Returns the movie ID */
+    public int getMovieId() {
+        return mId;
+    }
     /* Returns the movie title */
     public String getTitle() {
         return mTitle;

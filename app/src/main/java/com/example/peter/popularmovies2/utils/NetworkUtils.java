@@ -145,19 +145,45 @@ public class NetworkUtils {
     }
 
     /**
-     * This method returns the requested movie details along with any video's and reviews.
+     * This method returns information relating to any movie trailers.
      * @param movieId - the Id of the selected movie.
      * @return - A URL that queries the tMDB database.
      */
 
-    public static URL getMovieAppendToResponseUrl (int movieId){
+    public static URL getMovieVideos (int movieId){
 
         Uri.Builder getAppendedUrl = Uri.parse(Constants.BASE_SEARCH_URL).buildUpon();
+        getAppendedUrl.appendPath(Constants.PATH_MOVIE);
         getAppendedUrl.appendEncodedPath(String.valueOf(movieId));
+        getAppendedUrl.appendPath(Constants.PATH_VIDEO);
         getAppendedUrl.appendQueryParameter(Constants.API_KEY, Constants.API_KEY_VALUE);
 
         try {
             return new URL(getAppendedUrl.toString());
+
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    /**
+     * This method returns information relating to any movie reviews.
+     * @param movieId - the Id of the selected movie.
+     * @return - A URL that queries the tMDB database.
+     */
+
+    public static URL getMovieReviews (int movieId){
+
+        Uri.Builder getAppendedUrl = Uri.parse(Constants.BASE_SEARCH_URL).buildUpon();
+        getAppendedUrl.appendPath(Constants.PATH_MOVIE);
+        getAppendedUrl.appendEncodedPath(String.valueOf(movieId));
+        getAppendedUrl.appendPath(Constants.PATH_REVIEW);
+        getAppendedUrl.appendQueryParameter(Constants.API_KEY, Constants.API_KEY_VALUE);
+
+        try {
+            return new URL(getAppendedUrl.toString());
+
         } catch (MalformedURLException e) {
             e.printStackTrace();
             return null;

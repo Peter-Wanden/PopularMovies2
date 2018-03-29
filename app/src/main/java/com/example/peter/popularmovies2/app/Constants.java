@@ -12,15 +12,15 @@ public class Constants {
     /* URL Elements */
     public static final String BASE_SEARCH_URL = "https://api.themoviedb.org/3";
     public static final String BASE_IMAGE_URL = "https://image.tmdb.org/t/p";
+    public static final String PATH_MOVIE = "movie";
+    public static final String PATH_VIDEO = "videos";
+    public static final String PATH_REVIEW = "reviews";
     public static final String API_KEY = "api_key";
     public static final String API_KEY_VALUE = BuildConfig.API_KEY;
-    public static final String APPEND_TO_RESPONSE = "append_to_response";
-    public static final String EXTRAS = "videos,reviews";
     // Search types
     public static final int MOST_POPULAR = 0;
     public static final int HIGHEST_RATED = 1;
     public static final int FAVORITES = 2;
-    public static final String PATH_MOVIE = "movie";
     public static final String POPULARITY = "popular";
     public static final String RATING = "top_rated";
 

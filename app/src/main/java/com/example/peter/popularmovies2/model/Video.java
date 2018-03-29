@@ -3,6 +3,8 @@ package com.example.peter.popularmovies2.model;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import com.google.gson.annotations.SerializedName;
+
 /**
  * Created by peter on 21/03/2018.
  * Manages a Video object (trailer, movie clip, etc.) that is associated with a movie.
@@ -11,7 +13,7 @@ import android.os.Parcelable;
 public class Video implements Parcelable {
 
     /* Parcelable CREATOR */
-    public static final Creator<Video> CREATOR = new Creator<Video>() {
+    public static final Parcelable.Creator<Video> CREATOR = new Creator<Video>() {
         /* This calls the private 'Video(Parcel in)' constructor and passes along the Parcel
          * and returns a new object.
          */
@@ -27,23 +29,35 @@ public class Video implements Parcelable {
         }
     };
 
-    /* The movies ID */
-    private final int mId;
+    /* The movies ID - this is not part of the Gson Json object and is set after creation */
+    private int mMovieId;
+
     /* The video clip's ID */
+    @SerializedName(value = "id", alternate = "mVideoId")
     private final String mVideoId;
+
     /* The videos key */
+    @SerializedName(value = "key", alternate = "mVideoKey")
     private final String mVideoKey;
-    /* The videos name */
-    private final String mVideoName;
-    /* The site where the movie resides */
-    private final String mVideoSite;
-    /* The movies size (pixels on the screen) */
-    private final int mVideoSize;
+
     /* The videos type */
+    @SerializedName(value = "name", alternate = "mVideoName")
+    private final String mVideoName;
+
+    /* The site where the movie resides */
+    @SerializedName(value = "site", alternate = "mVideoSite")
+    private final String mVideoSite;
+
+    /* The movies size (pixels on the screen) */
+    @SerializedName(value = "size", alternate = "mVideoSize")
+    private final int mVideoSize;
+
+    /* The videos type */
+    @SerializedName(value = "type", alternate = "mVideoType")
     private final String mVideoType;
 
-    public Video (int id, String videoId, String videoKey, String videoName, String videoSite, int videoSize, String videoType) {
-        mId = id;
+    public Video (int movieId, String videoId, String videoKey, String videoName, String videoSite, int videoSize, String videoType) {
+        mMovieId = movieId;
         mVideoId = videoId;
         mVideoKey = videoKey;
         mVideoName = videoName;
@@ -56,7 +70,7 @@ public class Video implements Parcelable {
      * This constructor is usually private so that only the CREATOR can access it.
      */
     private Video(Parcel in) {
-        this.mId = in.readInt();
+        this.mMovieId = in.readInt();
         this.mVideoId = in.readString();
         this.mVideoKey = in.readString();
         this.mVideoName = in.readString();
@@ -67,7 +81,7 @@ public class Video implements Parcelable {
 
     /* Returns the movie ID */
     public int getMovieId() {
-        return mId;
+        return mMovieId;
     }
 
     /* Returns the video ID */
@@ -100,6 +114,11 @@ public class Video implements Parcelable {
         return mVideoType;
     }
 
+    /* Sets the movie ID */
+    public void setMovieId(int movieId) {
+        mMovieId = movieId;
+    }
+
     /* Used by Parcelable */
     @Override
     public int describeContents() {
@@ -109,7 +128,7 @@ public class Video implements Parcelable {
     /* This is where we write the values we want to save to the parcel */
     @Override
     public void writeToParcel(Parcel out, int flags) {
-        out.writeInt(mId);
+        out.writeInt(mMovieId);
         out.writeString(mVideoId);
         out.writeString(mVideoKey);
         out.writeString(mVideoName);

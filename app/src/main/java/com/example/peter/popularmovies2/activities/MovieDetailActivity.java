@@ -3,6 +3,7 @@ package com.example.peter.popularmovies2.activities;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 
 import com.example.peter.popularmovies2.R;
 import com.example.peter.popularmovies2.app.Constants;
@@ -20,6 +21,8 @@ import java.net.URL;
  */
 
 public class MovieDetailActivity extends AppCompatActivity {
+
+    private static final String TAG = MovieDetailActivity.class.getSimpleName();
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -71,7 +74,12 @@ public class MovieDetailActivity extends AppCompatActivity {
         detailBinding.movieDetailDescriptionTv.setText(selectedMovie.getMovieSynopsis());
 
         // Get the movie extra details
+        // Get the details URL
+        URL movieVideoUrl = NetworkUtils.getMovieVideos(selectedMovie.getMovieId());
+        assert movieVideoUrl != null;
+        Log.e(TAG, "Movie videos URL is: " + movieVideoUrl.toString());
 
-
+        URL movieReviewsUrl = NetworkUtils.getMovieReviews(selectedMovie.getMovieId());
+        Log.e(TAG, "Movie reviews URL is: " + movieReviewsUrl.toString());
     }
 }
