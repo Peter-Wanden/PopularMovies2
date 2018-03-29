@@ -8,7 +8,7 @@ import com.google.gson.annotations.SerializedName;
 /**
  * Created by peter on 20/03/2018.
  * This class holds a movie object and implements parcelable so we can easily move instances of it
- * between activities and save them in saved instance state.
+ * between activities and save them in savedInstanceState.
  * @link https://plus.google.com/u/0/events/cfftk1qo4tjn7enecof6f9oes0o?authkey=CNu5uui-k5qAtQE
  */
 

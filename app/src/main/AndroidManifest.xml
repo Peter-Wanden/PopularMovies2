@@ -36,6 +36,10 @@
                 android:value="com.example.peter.popularmovies2.activities.MovieDiscoveryActivity" />
         </activity>
 
+        <provider
+            android:name=".repository.MovieContentProvider"
+            android:authorities="com.example.peter.popularmovies2"
+            android:exported="false" />
     </application>
 
 </manifest>

@@ -30,20 +30,6 @@ public class Constants {
     public static final String IMAGE_SIZE_MEDIUM = "w342";
     public static final String IMAGE_SIZE_LARGE = "w500";
     public static final String IMAGE_SIZE_XLARGE = "w780";
-    // If no image is available
-    public static final String NO_POSTER_AVAILABLE = "no_image_available";
-    public static final String NO_BACKDROP_AVAILABLE = "no_backdrop_available";
-
-    /* JSON elements */
-    public static final String MOVIE_LIST = "results";
-    public static final String MOVIE_ID = "id";
-    public static final String MOVIE_TITLE = "title";
-    public static final String MOVIE_ORIGINAL_TITLE = "original_title";
-    public static final String MOVIE_POSTER = "poster_path";
-    public static final String MOVIE_BACKDROP = "backdrop_path";
-    public static final String MOVIE_PLOT_SYNOPSIS = "overview";
-    public static final String MOVIE_USER_RATING = "vote_average";
-    public static final String MOVIE_RELEASE_DATE = "release_date";
 
     /* Strings used as Key - pair's for moving objects about */
     public static final String SELECTED_MOVIE_KEY = "selected_movie";
