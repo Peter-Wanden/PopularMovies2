@@ -39,6 +39,6 @@ public class MovieLoader extends AsyncTaskLoader<ArrayList<Movie>> {
     public ArrayList<Movie> loadInBackground() {
 
         // Perform the network request, parse the response, and extract a list of Movies.
-        return JsonUtils.getMovieData(mMovieSearchType);
+        return GsonUtils.getMovieData(mMovieSearchType);
     }
 }

@@ -3,6 +3,8 @@ package com.example.peter.popularmovies2.model;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import com.google.gson.annotations.SerializedName;
+
 /**
  * Created by peter on 20/03/2018.
  * This class holds a movie object and implements parcelable so we can easily move instances of it
@@ -31,20 +33,35 @@ public class Movie implements Parcelable {
     };
 
     // The movies ID.
+    @SerializedName(value = "id", alternate = "mId")
     private final int mId;
+
     // Title of the movie.
+    @SerializedName(value = "title", alternate = "mTitle")
     private final String mTitle;
+
     // The movies original title.
+    @SerializedName(value = "original_title", alternate = "mOriginalTitle")
     private final String mOriginalTitle;
+
     // The movies poster image URL.
+    @SerializedName(value = "poster_path", alternate = "mImagePosterPath")
     private final String mImagePosterPath;
+
     // The movies backdrop image URL.
+    @SerializedName(value = "backdrop_path", alternate = "mImageBackdropPath")
     private final String mImageBackdropPath;
+
     // The movies synopsis.
+    @SerializedName(value = "overview", alternate = "mSynopsis")
     private final String mSynopsis;
+
     // The movies user rating.
+    @SerializedName(value = "vote_average", alternate = "mUserRating")
     private final double mUserRating;
+
     // The movies release date.
+    @SerializedName(value = "release_date", alternate = "mMovieReleaseDate")
     private final String mMovieReleaseDate;
 
     /**
