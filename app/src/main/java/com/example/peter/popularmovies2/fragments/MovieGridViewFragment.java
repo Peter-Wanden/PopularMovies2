@@ -14,6 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 import java.util.ArrayList;
+import java.util.Objects;
 
 import com.example.peter.popularmovies2.R;
 import com.example.peter.popularmovies2.adapters.PosterAdapter;
@@ -88,7 +89,7 @@ public class MovieGridViewFragment extends Fragment implements
         mRecyclerView.setAdapter(mPosterAdapter);
 
         /* Check to see if we have a valid network connection */
-        if (NetworkUtils.getNetworkStatus(getActivity())) {
+        if (NetworkUtils.getNetworkStatus(Objects.requireNonNull(getActivity()))) {
 
             /* Ensures a loader is initialized and active. If the loader doesn't already
              * exist, one is created and (if the activity/fragment is currently started)

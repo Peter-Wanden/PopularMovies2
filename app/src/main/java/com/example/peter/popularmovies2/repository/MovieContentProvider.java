@@ -104,7 +104,9 @@ public class MovieContentProvider extends ContentProvider {
     @Override
     public Uri insert(@NonNull Uri uri,
                       @Nullable ContentValues values) {
+
         final int match = sUriMatcher.match(uri);
+
         switch (match) {
             case MOVIES:
                 return insertMovie(uri, Objects.requireNonNull(values));
@@ -114,6 +116,9 @@ public class MovieContentProvider extends ContentProvider {
     }
 
     private Uri insertMovie(Uri uri, ContentValues contentValues) {
+
+        SQLiteDatabase database = mMovieDbHelper.getWritableDatabase();
+        database.beginTransaction();
 
         /* Check the validity of the required values provided */
         Integer movieId = contentValues.getAsInteger(
@@ -136,8 +141,6 @@ public class MovieContentProvider extends ContentProvider {
         if (movieOriginalTitle == null) {
             throw new IllegalArgumentException("Movie requires an original title");
         }
-
-        SQLiteDatabase database = mMovieDbHelper.getWritableDatabase();
 
         long id = database.insert(MovieEntry.TABLE_NAME, null, contentValues);
 

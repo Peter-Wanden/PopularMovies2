@@ -1,5 +1,7 @@
 package com.example.peter.popularmovies2.utils;
 
+import android.content.ContentValues;
+
 import com.example.peter.popularmovies2.model.Movie;
 import com.google.gson.Gson;
 
@@ -32,7 +34,6 @@ public class GsonUtils {
         }
 
         // Return the list of {@link Movie} objects.
-        // return extractFeatureFromJson(jsonResponse);
         NewMovieResults movieResults = new Gson().fromJson(jsonResponse, NewMovieResults.class);
 
         return movieResults.results;
