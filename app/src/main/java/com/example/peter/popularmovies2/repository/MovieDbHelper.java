@@ -15,7 +15,7 @@ public class MovieDbHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-
+        String SQL_CREATE_MOVIES_TABLE = "CREATE TABLE " +
     }
 
     @Override
