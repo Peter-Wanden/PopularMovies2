@@ -44,6 +44,20 @@
                 app:layout_constraintTop_toBottomOf="@+id/movie_detail_trailer_thumbnail_iv"
                 tools:srcCompat="@drawable/sample_discovery_image" />
 
+            <ImageButton
+                android:id="@+id/movie_detail_favorites_button"
+                android:layout_width="36dp"
+                android:layout_height="36dp"
+                android:background="@null"
+                android:contentDescription="@string/movie_detail_add_to_favorites_button"
+                android:scaleType="fitCenter"
+                android:src="@drawable/ic_favorite_border_black_24px"
+                android:tint="@color/colorPrimary"
+                app:layout_constraintBottom_toBottomOf="@+id/movie_detail_poster_small_iv"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintLeft_toRightOf="@+id/movie_detail_poster_small_iv"
+                app:layout_constraintTop_toTopOf="@+id/movie_detail_poster_small_iv" />
+
             <!-- Movie Title -->
             <TextView
                 android:id="@+id/movie_detail_title_tv"
@@ -107,9 +121,9 @@
                 android:textSize="22sp"
                 android:textStyle="bold"
                 app:layout_constraintBottom_toBottomOf="@+id/movie_detail_vote_average_tv"
+                app:layout_constraintTop_toTopOf="@+id/movie_detail_vote_average_tv"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@id/movie_detail_vote_average_tv"
-                app:layout_constraintTop_toTopOf="@+id/movie_detail_vote_average_tv"
                 tools:text="1999" />
 
             <!-- Year of release label -->
@@ -143,12 +157,14 @@
                 tools:text="This is where a long description of the movie goes" />
 
             <FrameLayout
-                android:id="@+id/movie_detail__fragment_reviews_container_rv"
+                android:id="@+id/movie_detail_fragment_reviews_container_rv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/movie_detail_description_tv"></FrameLayout>
+                app:layout_constraintTop_toBottomOf="@+id/movie_detail_description_tv">
+
+            </FrameLayout>
         </android.support.constraint.ConstraintLayout>
     </ScrollView>
 </layout>
