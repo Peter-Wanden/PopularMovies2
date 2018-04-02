@@ -35,6 +35,7 @@
     <!-- activity_movie_detail -->
     <!-- Accessibility strings -->
     <string name="movie_detail_description_movie_poster">A picture of the movies backdrop poster</string>
+    <string name="movie_detail_add_to_favorites_button">add to favorites button</string>
 
     <!-- User rating, year of release, certificate -->
     <string name="movie_detail_vote_average_label">voted</string>
@@ -42,5 +43,6 @@
 
     <!-- system string resources -->
     <string name="movie_discovery_no_movies">No movies of the type requested were found.</string>
+
 
 </resources>

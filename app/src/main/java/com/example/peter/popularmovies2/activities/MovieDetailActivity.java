@@ -4,11 +4,13 @@ import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.View;
 
 import com.example.peter.popularmovies2.R;
 import com.example.peter.popularmovies2.app.Constants;
 import com.example.peter.popularmovies2.databinding.ActivityMovieDetailBinding;
 import com.example.peter.popularmovies2.model.Movie;
+import com.example.peter.popularmovies2.repository.MovieContract;
 import com.example.peter.popularmovies2.utils.MovieLoader;
 import com.example.peter.popularmovies2.utils.NetworkUtils;
 import com.squareup.picasso.Picasso;
@@ -24,6 +26,8 @@ public class MovieDetailActivity extends AppCompatActivity {
 
     private static final String TAG = MovieDetailActivity.class.getSimpleName();
 
+    Movie selectedMovie;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -33,7 +37,7 @@ public class MovieDetailActivity extends AppCompatActivity {
                 DataBindingUtil.setContentView(this, R.layout.activity_movie_detail);
 
         // Extract the parcelable data from the intent and turn it back into a Movie object
-        Movie selectedMovie = getIntent().getParcelableExtra(Constants.SELECTED_MOVIE_KEY);
+        selectedMovie = getIntent().getParcelableExtra(Constants.SELECTED_MOVIE_KEY);
 
         // Load the backdrop
         if (selectedMovie.getBackdropImagePath() != null) {
@@ -68,10 +72,22 @@ public class MovieDetailActivity extends AppCompatActivity {
         detailBinding.movieDetailVoteAverageTv.setText(String.valueOf(selectedMovie.getUserRating()));
 
         // Set the year
-        detailBinding.movieDetailReleaseYear.setText(selectedMovie.getMovieReleaseDate());
+        String movieReleaseFullDate = selectedMovie.getMovieReleaseDate();
+        String[] datePart = movieReleaseFullDate.split("-");
+        String year = datePart[0];
+
+        detailBinding.movieDetailReleaseYear.setText(year);
 
         // Set the synopsis
         detailBinding.movieDetailDescriptionTv.setText(selectedMovie.getMovieSynopsis());
+
+        // Set a clickListener to the favorites button
+        detailBinding.movieDetailFavoritesButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                addMovieToFavorites();
+            }
+        });
 
         // Get the movie extra details
         // Get the details URL
@@ -81,5 +97,9 @@ public class MovieDetailActivity extends AppCompatActivity {
 
         URL movieReviewsUrl = NetworkUtils.getMovieReviews(selectedMovie.getMovieId());
         Log.e(TAG, "Movie reviews URL is: " + movieReviewsUrl.toString());
+    }
+    private void addMovieToFavorites() {
+        getContentResolver()
+                .insert(MovieContract.MovieEntry.CONTENT_URI, selectedMovie.getContentValues());
     }
 }

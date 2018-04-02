@@ -1,8 +1,10 @@
 package com.example.peter.popularmovies2.model;
 
+import android.content.ContentValues;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import com.example.peter.popularmovies2.repository.MovieContract;
 import com.google.gson.annotations.SerializedName;
 
 /**
@@ -113,6 +115,20 @@ public class Movie implements Parcelable {
         out.writeString(mSynopsis);
         out.writeDouble(mUserRating);
         out.writeString(mMovieReleaseDate);
+    }
+
+    public ContentValues getContentValues() {
+        ContentValues values = new ContentValues();
+        values.put(MovieContract.MovieEntry.COLUMN_MOVIE_ID, mId);
+        values.put(MovieContract.MovieEntry.COLUMN_TITLE, mTitle);
+        values.put(MovieContract.MovieEntry.COLUMN_ORIGINAL_TITLE, mOriginalTitle);
+        values.put(MovieContract.MovieEntry.COLUMN_POSTER_PATH, mImagePosterPath);
+        values.put(MovieContract.MovieEntry.COLUMN_BACKDROP_PATH, mImageBackdropPath);
+        values.put(MovieContract.MovieEntry.COLUMN_OVERVIEW, mSynopsis);
+        values.put(MovieContract.MovieEntry.COLUMN_RATING, mUserRating);
+        values.put(MovieContract.MovieEntry.COLUMN_RELEASE_YEAR, mMovieReleaseDate);
+
+        return values;
     }
 
     /* Returns the movie ID */
