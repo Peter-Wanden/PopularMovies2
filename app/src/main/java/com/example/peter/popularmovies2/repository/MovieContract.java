@@ -15,6 +15,7 @@ public class MovieContract {
 
     public static final class MovieEntry implements BaseColumns {
 
+        /* Content URI t access the movie data */
         public static final Uri CONTENT_URI = Uri.withAppendedPath(BASE_CONTENT_URI, PATH_MOVIE);
 
         /* The MIME type of the {@link #CONTENT_URI} for a list of movies */

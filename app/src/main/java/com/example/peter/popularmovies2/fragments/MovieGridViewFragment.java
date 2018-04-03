@@ -1,5 +1,6 @@
 package com.example.peter.popularmovies2.fragments;
 
+import android.content.ContentValues;
 import android.content.Context;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.Loader;
@@ -14,6 +15,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 import com.example.peter.popularmovies2.R;

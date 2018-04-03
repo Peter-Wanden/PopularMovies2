@@ -99,7 +99,8 @@ public class PosterAdapter extends RecyclerView.Adapter<PosterAdapter.PosterAdap
         posterAdapterViewHolder.movieTitleTextView.setText(currentMovie.getTitle());
 
         /* If a valid movie poster URL endpoint is not available */
-        if (imagePath.equals("no_image_available")) {
+        // TODO - Check the value entered by Gson when no value in JSON - Use a Json test file
+        if (imagePath.length() == 0) {
 
             // Swap the visibilities of the various views
             posterAdapterViewHolder.listItemImageView.setVisibility(View.GONE);

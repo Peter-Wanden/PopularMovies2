@@ -1,17 +1,19 @@
 package com.example.peter.popularmovies2.activities;
 
+import android.content.ContentValues;
 import android.databinding.DataBindingUtil;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
+import android.widget.Toast;
 
 import com.example.peter.popularmovies2.R;
 import com.example.peter.popularmovies2.app.Constants;
 import com.example.peter.popularmovies2.databinding.ActivityMovieDetailBinding;
 import com.example.peter.popularmovies2.model.Movie;
 import com.example.peter.popularmovies2.repository.MovieContract;
-import com.example.peter.popularmovies2.utils.MovieLoader;
 import com.example.peter.popularmovies2.utils.NetworkUtils;
 import com.squareup.picasso.Picasso;
 
@@ -26,7 +28,7 @@ public class MovieDetailActivity extends AppCompatActivity {
 
     private static final String TAG = MovieDetailActivity.class.getSimpleName();
 
-    Movie selectedMovie;
+    Movie mSelectedMovie;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -37,12 +39,12 @@ public class MovieDetailActivity extends AppCompatActivity {
                 DataBindingUtil.setContentView(this, R.layout.activity_movie_detail);
 
         // Extract the parcelable data from the intent and turn it back into a Movie object
-        selectedMovie = getIntent().getParcelableExtra(Constants.SELECTED_MOVIE_KEY);
+        mSelectedMovie = getIntent().getParcelableExtra(Constants.SELECTED_MOVIE_KEY);
 
         // Load the backdrop
-        if (selectedMovie.getBackdropImagePath() != null) {
+        if (mSelectedMovie.getBackdropImagePath() != null) {
             URL backdropUrl = NetworkUtils.getMovieImageUrl(Constants
-                    .IMAGE_SIZE_XLARGE, selectedMovie.getBackdropImagePath());
+                    .IMAGE_SIZE_XLARGE, mSelectedMovie.getBackdropImagePath());
             if (backdropUrl != null) {
                 String backDrop = backdropUrl.toString();
                 // Load the backdrop.
@@ -53,9 +55,9 @@ public class MovieDetailActivity extends AppCompatActivity {
         }
 
         // Load the poster
-        if (selectedMovie.getPosterImagePath() != null) {
+        if (mSelectedMovie.getPosterImagePath() != null) {
             URL posterUrl = NetworkUtils.getMovieImageUrl(Constants
-                    .IMAGE_SIZE_SMALL, selectedMovie.getPosterImagePath());
+                    .IMAGE_SIZE_SMALL, mSelectedMovie.getPosterImagePath());
             if (posterUrl != null) {
                 String poster = posterUrl.toString();
                 // Load the poster.
@@ -66,20 +68,20 @@ public class MovieDetailActivity extends AppCompatActivity {
         }
 
         // Set the title
-        detailBinding.movieDetailTitleTv.setText(selectedMovie.getOriginalTitle());
+        detailBinding.movieDetailTitleTv.setText(mSelectedMovie.getOriginalTitle());
 
         // Set the rating
-        detailBinding.movieDetailVoteAverageTv.setText(String.valueOf(selectedMovie.getUserRating()));
+        detailBinding.movieDetailVoteAverageTv.setText(String.valueOf(mSelectedMovie.getUserRating()));
 
         // Set the year
-        String movieReleaseFullDate = selectedMovie.getMovieReleaseDate();
+        String movieReleaseFullDate = mSelectedMovie.getMovieReleaseDate();
         String[] datePart = movieReleaseFullDate.split("-");
         String year = datePart[0];
 
         detailBinding.movieDetailReleaseYear.setText(year);
 
         // Set the synopsis
-        detailBinding.movieDetailDescriptionTv.setText(selectedMovie.getMovieSynopsis());
+        detailBinding.movieDetailDescriptionTv.setText(mSelectedMovie.getMovieSynopsis());
 
         // Set a clickListener to the favorites button
         detailBinding.movieDetailFavoritesButton.setOnClickListener(new View.OnClickListener() {
@@ -91,15 +93,20 @@ public class MovieDetailActivity extends AppCompatActivity {
 
         // Get the movie extra details
         // Get the details URL
-        URL movieVideoUrl = NetworkUtils.getMovieVideos(selectedMovie.getMovieId());
+        URL movieVideoUrl = NetworkUtils.getMovieVideos(mSelectedMovie.getMovieId());
         assert movieVideoUrl != null;
         Log.e(TAG, "Movie videos URL is: " + movieVideoUrl.toString());
 
-        URL movieReviewsUrl = NetworkUtils.getMovieReviews(selectedMovie.getMovieId());
+        URL movieReviewsUrl = NetworkUtils.getMovieReviews(mSelectedMovie.getMovieId());
         Log.e(TAG, "Movie reviews URL is: " + movieReviewsUrl.toString());
     }
     private void addMovieToFavorites() {
-        getContentResolver()
-                .insert(MovieContract.MovieEntry.CONTENT_URI, selectedMovie.getContentValues());
+        ContentValues values = mSelectedMovie.getContentValues();
+        Log.e(TAG, "Content Values to save are: " + values);
+
+        Uri uri = getContentResolver()
+                .insert(MovieContract.MovieEntry.CONTENT_URI, values);
+
+        Log.e(TAG, "Favorite movie save Uri: " + uri);
     }
 }

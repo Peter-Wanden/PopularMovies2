@@ -1,5 +1,6 @@
 package com.example.peter.popularmovies2.repository;
 
+import android.app.LoaderManager;
 import android.content.ContentProvider;
 import android.content.ContentUris;
 import android.content.ContentValues;
@@ -149,10 +150,9 @@ public class MovieContentProvider extends ContentProvider {
             return null;
         }
 
-        Objects.requireNonNull(
-                getContext()).
-                getContentResolver().
-                notifyChange(uri, null);
+        Log.e(TAG, "Database row insert = " + id);
+
+        getContext().getContentResolver().notifyChange(uri, null);
 
         return ContentUris.withAppendedId(uri, id);
     }

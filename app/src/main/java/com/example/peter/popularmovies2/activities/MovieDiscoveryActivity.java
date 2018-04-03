@@ -11,6 +11,7 @@ import android.view.MenuItem;
 
 import com.example.peter.popularmovies2.R;
 import com.example.peter.popularmovies2.app.Constants;
+import com.example.peter.popularmovies2.fragments.FavoritesFragment;
 import com.example.peter.popularmovies2.fragments.MovieGridViewFragment;
 import com.example.peter.popularmovies2.model.Movie;
 
@@ -85,7 +86,7 @@ public class MovieDiscoveryActivity extends AppCompatActivity implements
                 if (mostPopularFragment == null) {
                     mostPopularFragment = new MovieGridViewFragment();
                 }
-                fragmentTransaction.replace(R.id.fragment_movie_recycler_view_container,
+                fragmentTransaction.replace(R.id.movie_discovery_fragment_container_recycler_view,
                         mostPopularFragment).commit();
                 mostPopularFragment.setMovieSearchType(Constants.MOST_POPULAR);
                 break;
@@ -93,10 +94,10 @@ public class MovieDiscoveryActivity extends AppCompatActivity implements
             // Todo - implement favorites
             case R.id.movies_favorites:
                 setTitle(R.string.movies_favorite);
-                MovieGridViewFragment favoritesFragment = (MovieGridViewFragment)
+                FavoritesFragment favoritesFragment = (FavoritesFragment)
                         fragmentManager.findFragmentById(R.id.fragment_movie_recycler_view);
                 if (favoritesFragment == null) {
-                    favoritesFragment = new MovieGridViewFragment();
+                    favoritesFragment = new FavoritesFragment();
                 }
                 fragmentTransaction.replace(R.id.movie_discovery_fragment_container_recycler_view,
                         favoritesFragment).commit();

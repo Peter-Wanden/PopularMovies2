@@ -32,7 +32,7 @@
     <!-- Accessibility strings -->
     <string name="movie_discovery_image_of_movie_poster">Image of movie poster</string>
 
-    <!-- activity_movie_detail -->
+    <!-- Activity_movie_detail -->
     <!-- Accessibility strings -->
     <string name="movie_detail_description_movie_poster">A picture of the movies backdrop poster</string>
     <string name="movie_detail_add_to_favorites_button">add to favorites button</string>
@@ -44,5 +44,6 @@
     <!-- system string resources -->
     <string name="movie_discovery_no_movies">No movies of the type requested were found.</string>
 
-
+    <!-- Favorites fragment -->
+    <string name="empty_state_text_view_favorites">Click the heart on a movie to add to your favorites</string>
 </resources>
