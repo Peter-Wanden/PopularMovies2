@@ -1,6 +1,7 @@
 package com.example.peter.popularmovies2.activities;
 
 import android.content.ContentValues;
+import android.content.Context;
 import android.databinding.DataBindingUtil;
 import android.net.Uri;
 import android.os.Bundle;
@@ -13,6 +14,7 @@ import com.example.peter.popularmovies2.R;
 import com.example.peter.popularmovies2.app.Constants;
 import com.example.peter.popularmovies2.databinding.ActivityMovieDetailBinding;
 import com.example.peter.popularmovies2.model.Movie;
+import com.example.peter.popularmovies2.repository.FindFavorites;
 import com.example.peter.popularmovies2.repository.MovieContract;
 import com.example.peter.popularmovies2.utils.NetworkUtils;
 import com.squareup.picasso.Picasso;
@@ -28,14 +30,16 @@ public class MovieDetailActivity extends AppCompatActivity {
 
     private static final String TAG = MovieDetailActivity.class.getSimpleName();
 
+    Context context = MovieDetailActivity.this;
     Movie mSelectedMovie;
+    boolean favorite;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         // Sets up the view for us to bind data to.
-        ActivityMovieDetailBinding detailBinding =
+        final ActivityMovieDetailBinding detailBinding =
                 DataBindingUtil.setContentView(this, R.layout.activity_movie_detail);
 
         // Extract the parcelable data from the intent and turn it back into a Movie object
@@ -83,11 +87,34 @@ public class MovieDetailActivity extends AppCompatActivity {
         // Set the synopsis
         detailBinding.movieDetailDescriptionTv.setText(mSelectedMovie.getMovieSynopsis());
 
+        // Setup the favorites button
+        // Check if the movie is a favorite
+        favorite = FindFavorites.isFavorite(context, mSelectedMovie);
+        if (favorite) {
+            detailBinding.movieDetailFavoritesButton
+                    .setImageResource(R.drawable.ic_favorite_black_24px);
+        } else {
+            detailBinding.movieDetailFavoritesButton
+                    .setImageResource(R.drawable.ic_favorite_border_black_24px);
+        }
+
         // Set a clickListener to the favorites button
         detailBinding.movieDetailFavoritesButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                addMovieToFavorites();
+
+                // If the movie is already in favorites, delete it
+                if (favorite) {
+                    FindFavorites.removeFavorite(context, mSelectedMovie);
+                    detailBinding.movieDetailFavoritesButton
+                            .setImageResource(R.drawable.ic_favorite_border_black_24px);
+
+                    // If the movie is not in favorites, add it
+                } else {
+                    FindFavorites.addFavorite(context, mSelectedMovie);
+                    detailBinding.movieDetailFavoritesButton
+                            .setImageResource(R.drawable.ic_favorite_black_24px);
+                }
             }
         });
 
@@ -99,14 +126,5 @@ public class MovieDetailActivity extends AppCompatActivity {
 
         URL movieReviewsUrl = NetworkUtils.getMovieReviews(mSelectedMovie.getMovieId());
         Log.e(TAG, "Movie reviews URL is: " + movieReviewsUrl.toString());
-    }
-    private void addMovieToFavorites() {
-        ContentValues values = mSelectedMovie.getContentValues();
-        Log.e(TAG, "Content Values to save are: " + values);
-
-        Uri uri = getContentResolver()
-                .insert(MovieContract.MovieEntry.CONTENT_URI, values);
-
-        Log.e(TAG, "Favorite movie save Uri: " + uri);
     }
 }

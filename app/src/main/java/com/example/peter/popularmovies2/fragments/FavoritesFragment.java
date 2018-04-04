@@ -12,7 +12,6 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -30,8 +29,6 @@ import java.util.Objects;
 public class FavoritesFragment extends Fragment implements
         LoaderManager.LoaderCallbacks<Cursor>,
         FavoritesAdapter.FavoritesAdapterOnClickHandler{
-
-    private static final String TAG = FavoritesFragment.class.getSimpleName();
 
     private static final int FAVORITES_LOADER_ID = 301;
     protected FavoritesAdapter mFavoritesAdapter;
@@ -71,6 +68,7 @@ public class FavoritesFragment extends Fragment implements
         return rootView;
     }
 
+    @NonNull
     @Override
     public Loader<Cursor> onCreateLoader(int id, Bundle bundle) {
 

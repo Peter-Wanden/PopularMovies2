@@ -51,11 +51,11 @@ public class MovieContentProvider extends ContentProvider {
 
     @Nullable
     @Override
-    public Cursor query(@NonNull Uri uri,
-                        @Nullable String[] projection,
-                        @Nullable String selection,
-                        @Nullable String[] selectionArgs,
-                        @Nullable String sortOrder) {
+    public Cursor query(Uri uri,
+                        String[] projection,
+                        String selection,
+                        String[] selectionArgs,
+                        String sortOrder) {
 
         SQLiteDatabase database = mMovieDbHelper.getReadableDatabase();
 
@@ -76,7 +76,7 @@ public class MovieContentProvider extends ContentProvider {
                 break;
 
             case MOVIE_ID:
-                selection = MovieEntry._ID + "=?";
+                selection = MovieEntry.COLUMN_MOVIE_ID + "=?";
                 selectionArgs = new String[]{String.valueOf(ContentUris.parseId(uri))};
 
                 cursor = database.query(
@@ -118,7 +118,6 @@ public class MovieContentProvider extends ContentProvider {
     private Uri insertMovie(Uri uri, ContentValues contentValues) {
 
         SQLiteDatabase database = mMovieDbHelper.getWritableDatabase();
-        // TODO database.beginTransaction();
 
         /* Check the validity of the required values provided */
         Integer movieId = contentValues.getAsInteger(
@@ -176,7 +175,7 @@ public class MovieContentProvider extends ContentProvider {
                 break;
 
             case MOVIE_ID:
-                selection = MovieEntry._ID + "=?";
+                selection = MovieEntry.COLUMN_MOVIE_ID + "=?";
                 selectionArgs = new String[]{String.valueOf(ContentUris.parseId(uri))};
 
                 rowsDeleted = database.delete(
@@ -217,7 +216,7 @@ public class MovieContentProvider extends ContentProvider {
 
             case MOVIE_ID:
 
-                selection = MovieEntry._ID + "=?";
+                selection = MovieEntry.COLUMN_MOVIE_ID + "=?";
                 selectionArgs = new String[]{String.valueOf(ContentUris.parseId(uri))};
 
                 return updateMovie(
