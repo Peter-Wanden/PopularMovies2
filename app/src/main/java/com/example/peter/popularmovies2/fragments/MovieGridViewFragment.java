@@ -1,6 +1,5 @@
 package com.example.peter.popularmovies2.fragments;
 
-import android.content.ContentValues;
 import android.content.Context;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.Loader;
@@ -15,7 +14,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Objects;
 
 import com.example.peter.popularmovies2.R;
@@ -54,8 +52,12 @@ public class MovieGridViewFragment extends Fragment implements
     public MovieGridViewFragment(){}
 
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState ) {
-        View rootView = inflater.inflate(R.layout.fragment_movie_recycler_view, container, false);
+    public View onCreateView(@NonNull LayoutInflater inflater,
+                             ViewGroup container,
+                             Bundle savedInstanceState ) {
+
+        View rootView = inflater.inflate(R.layout.fragment_movie_recycler_view, container,
+                false);
 
         // todo - Implement onSaveInstanceState
         // todo - Restore adapter position - See Sunshine app MainActivity OnLoadFinished!!!

@@ -90,10 +90,7 @@ public class NetworkUtils {
         searchUri.appendQueryParameter(Constants.API_KEY, Constants.API_KEY_VALUE).build();
 
         try {
-            URL url = new URL(searchUri.toString());
-            Log.e(LOG_TAG, "Search URL: " + url);
-
-            return url;
+            return new URL(searchUri.toString());
 
             // return new URL(searchUri.toString());
         } catch (MalformedURLException e) {

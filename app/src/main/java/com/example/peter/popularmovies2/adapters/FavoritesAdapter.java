@@ -4,6 +4,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,6 +18,8 @@ import com.example.peter.popularmovies2.utils.NetworkUtils;
 import com.squareup.picasso.Picasso;
 
 public class FavoritesAdapter extends RecyclerView.Adapter<FavoritesAdapter.FavoritesAdapterViewHolder> {
+
+    private static final String TAG = FavoritesAdapter.class.getSimpleName();
 
     /* Used to access utility methods, app resources and layout inflaters */
     private final Context mContext;
@@ -56,12 +59,14 @@ public class FavoritesAdapter extends RecyclerView.Adapter<FavoritesAdapter.Favo
         mCursor.moveToPosition(position);
 
         String movieTitle = mCursor.getString(mCursor.getColumnIndex(MovieEntry.COLUMN_TITLE));
-        String moviePoster = mCursor.getString(mCursor.getColumnIndex(MovieEntry.COLUMN_POSTER_PATH));
+        String imagePath = mCursor.getString(mCursor.getColumnIndex(MovieEntry.COLUMN_POSTER_PATH));
+
+        Log.e(TAG, "Movie poster URL endpoint is: " + imagePath);
 
         favoritesAdapterViewHolder.movieTitleTextView.setText(movieTitle);
 
         // TODO - check the null value Gson uses if value is not present
-        if (moviePoster != null || moviePoster.length() > 0) {
+        if (imagePath.length() == 0) {
             // Swap the visibilities of the various views
             favoritesAdapterViewHolder.listItemImageView.setVisibility(View.GONE);
             favoritesAdapterViewHolder.noPosterAvailableTextView.setVisibility(View.VISIBLE);
@@ -85,7 +90,7 @@ public class FavoritesAdapter extends RecyclerView.Adapter<FavoritesAdapter.Favo
 
             Picasso.with(mContext)
                     .load(String.valueOf(NetworkUtils.getMovieImageUrl
-                            (Constants.IMAGE_SIZE_MEDIUM, moviePoster)))
+                            (Constants.IMAGE_SIZE_MEDIUM, imagePath)))
                     .placeholder(R.drawable.ic_powered_by_rectangle_blue).fit()
                     .into(favoritesAdapterViewHolder.listItemImageView);
         }

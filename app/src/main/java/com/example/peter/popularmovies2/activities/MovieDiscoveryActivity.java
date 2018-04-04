@@ -1,6 +1,7 @@
 package com.example.peter.popularmovies2.activities;
 
 import android.content.Intent;
+import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.FragmentManager;
@@ -26,14 +27,18 @@ public class MovieDiscoveryActivity extends AppCompatActivity implements
         BottomNavigationView.OnNavigationItemSelectedListener,
         MovieGridViewFragment.OnMovieSelectedListener {
 
+    /* Key value pair used for storing navigation state */
+    private static final String BOTTOM_NAVIGATION_SELECTED = "navigation_selection";
+    private BottomNavigationView mNavigationView;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         // Main view for this activity
         setContentView(R.layout.activity_movie_discovery);
         // Find the nav bar and attach a listener
-        BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navigation_widget);
-        bottomNavigationView.setOnNavigationItemSelectedListener(this);
+        mNavigationView = findViewById(R.id.bottom_navigation_widget);
+        mNavigationView.setOnNavigationItemSelectedListener(this);
 
         /* Instantiate a movie grid view fragment */
         MovieGridViewFragment popularMovies = new MovieGridViewFragment();
@@ -118,5 +123,24 @@ public class MovieDiscoveryActivity extends AppCompatActivity implements
         // Movie class implements Parcelable so we can add it to a bundle without any extra work.
         intent.putExtra(Constants.SELECTED_MOVIE_KEY, movie);
         startActivity(intent);
+    }
+
+    /**
+     * onStop()     - Saves the current BottomNavigationBar selection
+     * onStart()    - Retrieves and sets the last used BottomNavigationBar preference
+     */
+    @Override
+    protected void onStop() {
+        PreferenceManager.getDefaultSharedPreferences(this)
+                .edit().putInt(BOTTOM_NAVIGATION_SELECTED, mNavigationView.getSelectedItemId()).apply();
+        super.onStop();
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        int navigationPreference = PreferenceManager.getDefaultSharedPreferences(this)
+                .getInt(BOTTOM_NAVIGATION_SELECTED, R.id.movies_highest_rated);
+        mNavigationView.setSelectedItemId(navigationPreference);
     }
 }

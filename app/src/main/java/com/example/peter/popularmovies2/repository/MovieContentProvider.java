@@ -1,6 +1,5 @@
 package com.example.peter.popularmovies2.repository;
 
-import android.app.LoaderManager;
 import android.content.ContentProvider;
 import android.content.ContentUris;
 import android.content.ContentValues;
@@ -77,7 +76,7 @@ public class MovieContentProvider extends ContentProvider {
                 break;
 
             case MOVIE_ID:
-                selection = MOVIE_ID + "=?";
+                selection = MovieEntry._ID + "=?";
                 selectionArgs = new String[]{String.valueOf(ContentUris.parseId(uri))};
 
                 cursor = database.query(
@@ -119,7 +118,7 @@ public class MovieContentProvider extends ContentProvider {
     private Uri insertMovie(Uri uri, ContentValues contentValues) {
 
         SQLiteDatabase database = mMovieDbHelper.getWritableDatabase();
-        database.beginTransaction();
+        // TODO database.beginTransaction();
 
         /* Check the validity of the required values provided */
         Integer movieId = contentValues.getAsInteger(
@@ -205,8 +204,40 @@ public class MovieContentProvider extends ContentProvider {
                       @Nullable ContentValues values,
                       @Nullable String selection,
                       @Nullable String[] selectionArgs) {
+
+        final int match = sUriMatcher.match(uri);
+
+        switch (match) {
+            case MOVIES:
+                return updateMovie(
+                        uri,
+                        values,
+                        selection,
+                        selectionArgs);
+
+            case MOVIE_ID:
+
+                selection = MovieEntry._ID + "=?";
+                selectionArgs = new String[]{String.valueOf(ContentUris.parseId(uri))};
+
+                return updateMovie(
+                        uri,
+                        values,
+                        selection,
+                        selectionArgs);
+
+            default:
+                throw new IllegalArgumentException("Update is not supported for " + uri);
+        }
+    }
+
+    private int updateMovie (
+            Uri uri,
+            ContentValues values,
+            String selection,
+            String[] selectionArgs) {
+
         /* Check for the minimum required values */
-        assert values != null;
         if (values.containsKey(MovieEntry.COLUMN_MOVIE_ID)) {
             Integer movieId = values.getAsInteger(MovieEntry.COLUMN_MOVIE_ID);
 

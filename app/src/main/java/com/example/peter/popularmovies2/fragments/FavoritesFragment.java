@@ -4,9 +4,6 @@ import android.support.v4.app.LoaderManager;
 import android.support.v4.content.Loader;
 import android.support.v4.content.CursorLoader;
 
-
-
-
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
@@ -15,6 +12,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -32,6 +30,8 @@ import java.util.Objects;
 public class FavoritesFragment extends Fragment implements
         LoaderManager.LoaderCallbacks<Cursor>,
         FavoritesAdapter.FavoritesAdapterOnClickHandler{
+
+    private static final String TAG = FavoritesFragment.class.getSimpleName();
 
     private static final int FAVORITES_LOADER_ID = 301;
     protected FavoritesAdapter mFavoritesAdapter;
@@ -64,10 +64,11 @@ public class FavoritesFragment extends Fragment implements
 
         mRecyclerView.setLayoutManager(mLayoutManager);
         mRecyclerView.setHasFixedSize(true);
+        mRecyclerView.setAdapter(mFavoritesAdapter);
 
         getLoaderManager().initLoader(FAVORITES_LOADER_ID, null, this);
 
-        return super.onCreateView(inflater, container, savedInstanceState);
+        return rootView;
     }
 
     @Override
@@ -98,9 +99,10 @@ public class FavoritesFragment extends Fragment implements
         mEmptyStateTextView.setText(R.string.empty_state_text_view_favorites);
 
         if(mPosition == RecyclerView.NO_POSITION) mPosition = 0;
+
         if(data.getCount() != 0) {
-            mFavoritesAdapter.swapCursor(data);
             mEmptyStateTextView.setVisibility(View.GONE);
+            mFavoritesAdapter.swapCursor(data);
         }
     }
 
@@ -111,5 +113,6 @@ public class FavoritesFragment extends Fragment implements
 
     @Override
     public void onClick(int movieId) {
+        // ToDo - If movie is in favorites, remove it, else add it
     }
 }
