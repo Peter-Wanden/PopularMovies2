@@ -1,8 +1,7 @@
 package com.example.peter.popularmovies2.utils;
 
-import android.content.ContentValues;
-
 import com.example.peter.popularmovies2.model.Movie;
+import com.example.peter.popularmovies2.model.Review;
 import com.google.gson.Gson;
 
 import java.io.IOException;
@@ -42,5 +41,31 @@ public class GsonUtils {
     // Inner class provides a container for the movie results
     public class NewMovieResults {
         ArrayList<Movie> results;
+    }
+
+    /**
+     * Query the TMDb server and return a list of Review objects for a movie.
+     */
+    static ArrayList<Review> getMovieReviews(int movieId) {
+
+        /* Create the URL object */
+        URL url = NetworkUtils.getMovieReviews(movieId);
+
+        // Perform a HTTP request to the URL and receive a JSON response back.
+        String jsonResponse = null;
+        try {
+            assert url != null;
+            jsonResponse = NetworkUtils.getResponseFromHttpUrl(url);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        // Return the results
+        NewReviewResults reviewResults = new Gson().fromJson(jsonResponse, NewReviewResults.class);
+
+        return reviewResults.reviews;
+    }
+
+    public class NewReviewResults {
+        ArrayList<Review> reviews;
     }
 }

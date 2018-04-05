@@ -46,4 +46,5 @@
 
     <!-- Favorites fragment -->
     <string name="empty_state_text_view_favorites">Click the heart on a movie to add to your favorites</string>
+    <string name="reviews">Reviews</string>
 </resources>

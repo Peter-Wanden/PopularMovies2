@@ -9,7 +9,6 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -101,7 +100,6 @@ public class MovieGridViewFragment extends Fragment implements
         mRecyclerView.setHasFixedSize(true);
 
         if (savedInstanceState == null) {
-            Log.e(TAG, "Save instance state is null");
             /* Check to see if we have a valid network connection */
             if (NetworkUtils.getNetworkStatus(Objects.requireNonNull(getActivity()))) {
 
@@ -111,16 +109,12 @@ public class MovieGridViewFragment extends Fragment implements
                  */
                 getLoaderManager().initLoader(POSTER_LOADER_ID, null, this);
             }
-        } else {
-            Log.e(TAG, "Saved instance state is not null");
         }
-
     }
 
     @NonNull
     @Override
     public Loader<ArrayList<Movie>> onCreateLoader(int loaderId, @Nullable Bundle bundle) {
-        Log.e(TAG, "Loader called");
         return new MovieLoader(getActivity(), mMovieSearchType);
     }
 

@@ -164,6 +164,11 @@
                 app:layout_constraintTop_toBottomOf="@+id/movie_detail_description_tv">
 
             </FrameLayout>
+
+            <include
+                android:id="@+id/movie_details_container_actors"
+                layout="@layout/movie_details_reviews_view" />
+
         </android.support.constraint.ConstraintLayout>
     </ScrollView>
 </layout>

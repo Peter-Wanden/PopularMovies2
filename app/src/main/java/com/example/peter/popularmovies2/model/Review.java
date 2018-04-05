@@ -12,17 +12,17 @@ import com.google.gson.annotations.SerializedName;
  * between classes and saved instance state.
  */
 
-public class Reviews implements Parcelable {
+public class Review implements Parcelable {
 
-    public static final Parcelable.Creator<Reviews> CREATOR = new Creator<Reviews>() {
+    public static final Parcelable.Creator<Review> CREATOR = new Creator<Review>() {
         @Override
-        public Reviews createFromParcel(Parcel in) {
-            return new Reviews(in);
+        public Review createFromParcel(Parcel in) {
+            return new Review(in);
         }
 
         @Override
-        public Reviews[] newArray(int size) {
-            return new Reviews[size];
+        public Review[] newArray(int size) {
+            return new Review[size];
         }
     };
 
@@ -43,20 +43,20 @@ public class Reviews implements Parcelable {
     private final String mUrl;
 
     /**
-     * Constructor for Reviews object.
+     * Constructor for Review object.
      * @param mAuthor   The author of the review
      * @param mComment  The comment left by the reviewer
      * @param mId       The reviews unique ID
      * @param mUrl      The URL of where the comment can be viewed on-line
      */
-    public Reviews(String mAuthor, String mComment, String mId, String mUrl) {
+    public Review(String mAuthor, String mComment, String mId, String mUrl) {
         this.mAuthor = mAuthor;
         this.mComment = mComment;
         this.mId = mId;
         this.mUrl = mUrl;
     }
 
-    private Reviews(Parcel in) {
+    private Review(Parcel in) {
         this.mAuthor = in.readString();
         this.mComment = in.readString();
         this.mId = in.readString();

@@ -1,24 +1,20 @@
 package com.example.peter.popularmovies2.activities;
 
-import android.content.ContentValues;
 import android.content.Context;
 import android.databinding.DataBindingUtil;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
-import android.widget.Toast;
+
 
 import com.example.peter.popularmovies2.R;
 import com.example.peter.popularmovies2.app.Constants;
 import com.example.peter.popularmovies2.databinding.ActivityMovieDetailBinding;
 import com.example.peter.popularmovies2.model.Movie;
 import com.example.peter.popularmovies2.repository.FindFavorites;
-import com.example.peter.popularmovies2.repository.MovieContract;
 import com.example.peter.popularmovies2.utils.NetworkUtils;
 import com.squareup.picasso.Picasso;
-
 import java.net.URL;
 
 /**
@@ -30,6 +26,7 @@ public class MovieDetailActivity extends AppCompatActivity {
 
     private static final String TAG = MovieDetailActivity.class.getSimpleName();
 
+    private static final int REVIEW_LOADER_ID = 400;
     Context context = MovieDetailActivity.this;
     Movie mSelectedMovie;
     boolean favorite;
@@ -118,7 +115,6 @@ public class MovieDetailActivity extends AppCompatActivity {
             }
         });
 
-        // Get the movie extra details
         // Get the details URL
         URL movieVideoUrl = NetworkUtils.getMovieVideos(mSelectedMovie.getMovieId());
         assert movieVideoUrl != null;
