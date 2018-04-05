@@ -1,5 +1,6 @@
 package com.example.peter.popularmovies2.fragments;
 
+import android.content.Context;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.Loader;
 import android.support.v4.content.CursorLoader;
@@ -19,6 +20,7 @@ import android.widget.TextView;
 
 import com.example.peter.popularmovies2.R;
 import com.example.peter.popularmovies2.adapters.FavoritesAdapter;
+import com.example.peter.popularmovies2.model.Movie;
 import com.example.peter.popularmovies2.repository.MovieContract.MovieEntry;
 
 import java.util.Objects;
@@ -30,14 +32,23 @@ public class FavoritesFragment extends Fragment implements
         LoaderManager.LoaderCallbacks<Cursor>,
         FavoritesAdapter.FavoritesAdapterOnClickHandler{
 
+    // Loader id
     private static final int FAVORITES_LOADER_ID = 301;
+    // Instantiate adapter
     protected FavoritesAdapter mFavoritesAdapter;
+    // Instantiate RecyclerView
     protected RecyclerView mRecyclerView;
+    // Instantiate LayoutManager
     protected GridLayoutManager mLayoutManager;
+    // Interface to activity
+    OnFavoriteSelectedListener mMovieCallback;
+    // Loading indicator
     private View mLoadingIndicator;
+    // TextView that is displayed when the movie list is empty
     private TextView mEmptyStateTextView;
+    // RecyclerView position
     private int mPosition = RecyclerView.NO_POSITION;
-
+    // Mandatory empty constructor for instantiating the fragment
     public FavoritesFragment() {}
 
     @Nullable
@@ -78,7 +89,12 @@ public class FavoritesFragment extends Fragment implements
                 MovieEntry._ID,
                 MovieEntry.COLUMN_MOVIE_ID,
                 MovieEntry.COLUMN_TITLE,
-                MovieEntry.COLUMN_POSTER_PATH};
+                MovieEntry.COLUMN_ORIGINAL_TITLE,
+                MovieEntry.COLUMN_POSTER_PATH,
+                MovieEntry.COLUMN_BACKDROP_PATH,
+                MovieEntry.COLUMN_OVERVIEW,
+                MovieEntry.COLUMN_RATING,
+                MovieEntry.COLUMN_RELEASE_YEAR};
 
         String sortOrder = MovieEntry.COLUMN_TITLE + " ASC";
 
@@ -109,8 +125,27 @@ public class FavoritesFragment extends Fragment implements
         mFavoritesAdapter.swapCursor(null);
     }
 
+    // OnMovieSelected interface, calls a method in the host activity named onMovieSelected
     @Override
-    public void onClick(int movieId) {
-        // ToDo - If movie is in favorites, remove it, else add it
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        // Make sure the host activity has implemented the OnMovieSelectedListener callback interface
+        try {
+            mMovieCallback = (OnFavoriteSelectedListener) context;
+        } catch (ClassCastException e) {
+            throw new ClassCastException(context.toString()
+                    + " must implement OnMovieSelectedListener");
+        }
+    }
+
+    // OnMovieSelected interface, calls a method in the host activity named onFavoriteSelected
+    public interface OnFavoriteSelectedListener {
+        void onFavoriteSelected(Movie movie);
+    }
+
+    /* Click interface from the FavouritesAdapter */
+    @Override
+    public void onClick(Movie clickedMovie, int adapterPosition) {
+        mMovieCallback.onFavoriteSelected(clickedMovie);
     }
 }

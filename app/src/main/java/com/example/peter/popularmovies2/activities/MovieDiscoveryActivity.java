@@ -1,6 +1,7 @@
 package com.example.peter.popularmovies2.activities;
 
 import android.content.Intent;
+import android.os.PersistableBundle;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
@@ -18,14 +19,12 @@ import com.example.peter.popularmovies2.model.Movie;
 
 /**
  * TODO - 1. Get ALL of the data required for the next phase
- * TODO - 2. Build a DbHelper / Database
- * TODO - 3. Build a ContentProvider
- * TODO - 4. Build a Contract
  * TODO - When everything is running as it should be, and if there is time, implement suggestions.
  */
 public class MovieDiscoveryActivity extends AppCompatActivity implements
         BottomNavigationView.OnNavigationItemSelectedListener,
-        MovieGridViewFragment.OnMovieSelectedListener {
+        MovieGridViewFragment.OnMovieSelectedListener,
+        FavoritesFragment.OnFavoriteSelectedListener{
 
     /* Key value pair used for storing navigation state */
     private static final String BOTTOM_NAVIGATION_SELECTED = "navigation_selection";
@@ -39,14 +38,6 @@ public class MovieDiscoveryActivity extends AppCompatActivity implements
         // Find the nav bar and attach a listener
         mNavigationView = findViewById(R.id.bottom_navigation_widget);
         mNavigationView.setOnNavigationItemSelectedListener(this);
-
-        /* Instantiate a movie grid view fragment */
-        MovieGridViewFragment popularMovies = new MovieGridViewFragment();
-        /* Add it to the main display */
-        FragmentManager fragmentManager = getSupportFragmentManager();
-        fragmentManager.beginTransaction()
-                .add(R.id.movie_discovery_fragment_container_recycler_view, popularMovies)
-                .commit();
     }
 
     /**
@@ -96,7 +87,6 @@ public class MovieDiscoveryActivity extends AppCompatActivity implements
                 mostPopularFragment.setMovieSearchType(Constants.MOST_POPULAR);
                 break;
 
-            // Todo - implement favorites
             case R.id.movies_favorites:
                 setTitle(R.string.movies_favorite);
                 FavoritesFragment favoritesFragment = (FavoritesFragment)
@@ -118,7 +108,19 @@ public class MovieDiscoveryActivity extends AppCompatActivity implements
      * @param movie - The movie selected by the user.
      */
     @Override
-    public void onMovieSelected(Movie movie) {
+    public void onMovieSelected(Movie movie, int adapterPosition) {
+        Intent intent = new Intent(this, MovieDetailActivity.class);
+        // Movie class implements Parcelable so we can add it to a bundle without any extra work.
+        intent.putExtra(Constants.SELECTED_MOVIE_KEY, movie);
+        startActivity(intent);
+    }
+
+    /**
+     * Interface that receives a movie object from a FavoritesFragment instance.
+     * @param movie - the selected movie.
+     */
+    @Override
+    public void onFavoriteSelected(Movie movie) {
         Intent intent = new Intent(this, MovieDetailActivity.class);
         // Movie class implements Parcelable so we can add it to a bundle without any extra work.
         intent.putExtra(Constants.SELECTED_MOVIE_KEY, movie);
@@ -130,17 +132,17 @@ public class MovieDiscoveryActivity extends AppCompatActivity implements
      * onStart()    - Retrieves and sets the last used BottomNavigationBar preference
      */
     @Override
-    protected void onStop() {
-        PreferenceManager.getDefaultSharedPreferences(this)
-                .edit().putInt(BOTTOM_NAVIGATION_SELECTED, mNavigationView.getSelectedItemId()).apply();
-        super.onStop();
-    }
-
-    @Override
     protected void onStart() {
         super.onStart();
         int navigationPreference = PreferenceManager.getDefaultSharedPreferences(this)
                 .getInt(BOTTOM_NAVIGATION_SELECTED, R.id.movies_highest_rated);
         mNavigationView.setSelectedItemId(navigationPreference);
+    }
+
+    @Override
+    protected void onStop() {
+        PreferenceManager.getDefaultSharedPreferences(this)
+                .edit().putInt(BOTTOM_NAVIGATION_SELECTED, mNavigationView.getSelectedItemId()).apply();
+        super.onStop();
     }
 }

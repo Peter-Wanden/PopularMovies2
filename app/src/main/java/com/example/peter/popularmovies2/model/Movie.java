@@ -93,7 +93,7 @@ public class Movie implements Parcelable {
     /* This is where we retrieve the values that were written to the parcel.
      * This constructor is usually private so that only the CREATOR can access it.
      */
-    private Movie(Parcel in) {
+    public Movie(Parcel in) {
         this.mId = in.readInt();
         this.mTitle = in.readString();
         this.mOriginalTitle = in.readString();
@@ -135,6 +135,7 @@ public class Movie implements Parcelable {
     public int getMovieId() {
         return mId;
     }
+
     /* Returns the movie title */
     public String getTitle() {
         return mTitle;

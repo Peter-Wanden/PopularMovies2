@@ -87,7 +87,8 @@ public class PosterAdapter extends RecyclerView.Adapter<PosterAdapter.PosterAdap
      * @param position The position of the item within the adapter's data set.
      */
     @Override
-    public void onBindViewHolder(@NonNull PosterAdapterViewHolder posterAdapterViewHolder, int position) {
+    public void onBindViewHolder(@NonNull PosterAdapterViewHolder posterAdapterViewHolder,
+                                 int position) {
 
         // Get the current Movie object
         Movie currentMovie = mMovies.get(position);
@@ -208,9 +209,10 @@ public class PosterAdapter extends RecyclerView.Adapter<PosterAdapter.PosterAdap
          */
         @Override
         public void onClick(View v) {
+            // TODO - Save adapter position here, as is last place before intent to Detail Activity
             int clickedPosition = getAdapterPosition();
             Movie currentMovie = mMovies.get(clickedPosition);
-            mClickHandler.onClick(currentMovie, getAdapterPosition());
+            mClickHandler.onClick(currentMovie, clickedPosition);
         }
     }
 }

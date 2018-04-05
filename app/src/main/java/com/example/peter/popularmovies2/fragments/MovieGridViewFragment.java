@@ -9,6 +9,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -30,6 +31,8 @@ import com.example.peter.popularmovies2.utils.NetworkUtils;
 public class MovieGridViewFragment extends Fragment implements
         LoaderManager.LoaderCallbacks<ArrayList<Movie>>,
         PosterAdapter.PosterAdapterOnClickHandler {
+
+    private static final String TAG = MovieGridViewFragment.class.getSimpleName();
 
     // Loader id
     private static final int POSTER_LOADER_ID = 100;
@@ -59,9 +62,6 @@ public class MovieGridViewFragment extends Fragment implements
         View rootView = inflater.inflate(R.layout.fragment_movie_recycler_view, container,
                 false);
 
-        // todo - Implement onSaveInstanceState
-        // todo - Restore adapter position - See Sunshine app MainActivity OnLoadFinished!!!
-
         /* Get a reference to the loading indicator */
         mLoadingIndicator = rootView.findViewById(R.id.loading_indicator);
 
@@ -70,6 +70,14 @@ public class MovieGridViewFragment extends Fragment implements
 
         /* Get a reference to the recycler view */
         mRecyclerView = rootView.findViewById(R.id.fragment_movie_recycler_view);
+
+        /* return the view */
+        return rootView;
+    }
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
 
         /* Create a new adapter that takes an empty list of Movie objects */
         mPosterAdapter = new PosterAdapter(getActivity(),this);
@@ -83,49 +91,36 @@ public class MovieGridViewFragment extends Fragment implements
         /* Connect the layout manager to the RecyclerView */
         mRecyclerView.setLayoutManager(mLayoutManager);
 
+        /* Setting the adapter attaches it to the RecyclerView in our layout. */
+        mRecyclerView.setAdapter(mPosterAdapter);
+
         /* Developer docs recommend using this performance improvement if all of the views are the
          * same size. They are actually not, as some are text and some are images. The use of
          * setHasFixedSize here is to force the views to be of equal size.
          */
         mRecyclerView.setHasFixedSize(true);
 
-        /* Setting the adapter attaches it to the RecyclerView in our layout. */
-        mRecyclerView.setAdapter(mPosterAdapter);
+        if (savedInstanceState == null) {
+            Log.e(TAG, "Save instance state is null");
+            /* Check to see if we have a valid network connection */
+            if (NetworkUtils.getNetworkStatus(Objects.requireNonNull(getActivity()))) {
 
-        /* Check to see if we have a valid network connection */
-        if (NetworkUtils.getNetworkStatus(Objects.requireNonNull(getActivity()))) {
-
-            /* Ensures a loader is initialized and active. If the loader doesn't already
-             * exist, one is created and (if the activity/fragment is currently started)
-             * starts the loader. Otherwise the last created loader is re-used.
-             */
-            getLoaderManager().initLoader(POSTER_LOADER_ID, null, this);
-
+                /* Ensures a loader is initialized and active. If the loader doesn't already
+                 * exist, one is created and (if the activity/fragment is currently started)
+                 * starts the loader. Otherwise the last created loader is re-used.
+                 */
+                getLoaderManager().initLoader(POSTER_LOADER_ID, null, this);
+            }
         } else {
-            // Turn the loading indicator off
-            mLoadingIndicator.setVisibility(View.GONE);
-            // Update the empty state text view with network connection error message
-            mEmptyStateTextView.setText(R.string.movie_discovery_no_network);
+            Log.e(TAG, "Saved instance state is not null");
         }
 
-        // TODO - fix the scroll to position.
-        /* Get a reference to scrollview */
-        if (savedInstanceState != null && savedInstanceState.containsKey("recycler_view_position")) {
-            int position = savedInstanceState.getInt("recycler_view_position");
-            mRecyclerView.scrollToPosition(position);
-        }
-        /* return the view */
-        return rootView;
-    }
-
-    @Override
-    public void onClick(Movie clickedMovie, int adapterPosition) {
-        mMovieCallback.onMovieSelected(clickedMovie);
     }
 
     @NonNull
     @Override
     public Loader<ArrayList<Movie>> onCreateLoader(int loaderId, @Nullable Bundle bundle) {
+        Log.e(TAG, "Loader called");
         return new MovieLoader(getActivity(), mMovieSearchType);
     }
 
@@ -164,7 +159,12 @@ public class MovieGridViewFragment extends Fragment implements
 
     // OnMovieSelected interface, calls a method in the host activity named onMovieSelected
     public interface OnMovieSelectedListener {
-        void onMovieSelected(Movie movie);
+        void onMovieSelected(Movie movie, int adapterPosition);
+    }
+
+    @Override
+    public void onClick(Movie clickedMovie, int adapterPosition) {
+        mMovieCallback.onMovieSelected(clickedMovie, adapterPosition);
     }
 
     // Called by the parent activity when a button on the BottomNavigationBar is pressed

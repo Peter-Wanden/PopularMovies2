@@ -2,9 +2,9 @@ package com.example.peter.popularmovies2.adapters;
 
 import android.content.Context;
 import android.database.Cursor;
+import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,10 +13,14 @@ import android.widget.TextView;
 
 import com.example.peter.popularmovies2.R;
 import com.example.peter.popularmovies2.app.Constants;
+import com.example.peter.popularmovies2.model.Movie;
 import com.example.peter.popularmovies2.repository.MovieContract.MovieEntry;
 import com.example.peter.popularmovies2.utils.NetworkUtils;
 import com.squareup.picasso.Picasso;
 
+/**
+ * This adapter uses a cursor instead of an ArrayList as its data source.
+ */
 public class FavoritesAdapter extends RecyclerView.Adapter<FavoritesAdapter.FavoritesAdapterViewHolder> {
 
     private static final String TAG = FavoritesAdapter.class.getSimpleName();
@@ -29,14 +33,12 @@ public class FavoritesAdapter extends RecyclerView.Adapter<FavoritesAdapter.Favo
 
     /* Click interface */
     final private FavoritesAdapterOnClickHandler mClickHandler;
-    public interface FavoritesAdapterOnClickHandler { void onClick(int movieId); }
 
     /* Constructor */
-    public FavoritesAdapter(Context context, FavoritesAdapterOnClickHandler clickHandler) {
+    public FavoritesAdapter(Context context, FavoritesAdapterOnClickHandler listener) {
         mContext = context;
-        mClickHandler = clickHandler;
+        mClickHandler = listener;
     }
-
 
     @NonNull
     @Override
@@ -60,8 +62,6 @@ public class FavoritesAdapter extends RecyclerView.Adapter<FavoritesAdapter.Favo
 
         String movieTitle = mCursor.getString(mCursor.getColumnIndex(MovieEntry.COLUMN_TITLE));
         String imagePath = mCursor.getString(mCursor.getColumnIndex(MovieEntry.COLUMN_POSTER_PATH));
-
-        Log.e(TAG, "Movie poster URL endpoint is: " + imagePath);
 
         favoritesAdapterViewHolder.movieTitleTextView.setText(movieTitle);
 
@@ -102,12 +102,24 @@ public class FavoritesAdapter extends RecyclerView.Adapter<FavoritesAdapter.Favo
         return mCursor.getCount();
     }
 
+    /* Called by the controlling Activity or Fragment to replace the underlying data set */
     public void swapCursor(Cursor newCursor){
         mCursor = newCursor;
         notifyDataSetChanged();
     }
 
-    class FavoritesAdapterViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
+    /* The interface that receives onClick messages. */
+    public interface FavoritesAdapterOnClickHandler {
+        void onClick(Movie clickedMovie, int adapterPosition);
+    }
+
+    /**
+     * A ViewHolder is a required as part of the pattern for RecyclerViews. It mostly behaves as
+     * a cache of the child views for a list / grid item. It's also a convenient place to set an
+     * OnClickListener, since it has access to the adapter and the views.
+     */
+    class FavoritesAdapterViewHolder extends RecyclerView.ViewHolder
+            implements View.OnClickListener{
 
         final ImageView listItemImageView;
         final ImageView listItemNoImageImageView;
@@ -129,8 +141,18 @@ public class FavoritesAdapter extends RecyclerView.Adapter<FavoritesAdapter.Favo
         public void onClick(View v) {
             int clickedPosition = getAdapterPosition();
             mCursor.moveToPosition(clickedPosition);
-            int movieId = mCursor.getInt(mCursor.getColumnIndex(MovieEntry.COLUMN_MOVIE_ID));
-            mClickHandler.onClick(movieId);
+
+            Movie currentMovie = new Movie(
+                    mCursor.getInt(mCursor.getColumnIndex(MovieEntry.COLUMN_MOVIE_ID)),
+                    mCursor.getString(mCursor.getColumnIndex(MovieEntry.COLUMN_TITLE)),
+                    mCursor.getString(mCursor.getColumnIndex(MovieEntry.COLUMN_ORIGINAL_TITLE)),
+                    mCursor.getString(mCursor.getColumnIndex(MovieEntry.COLUMN_POSTER_PATH)),
+                    mCursor.getString(mCursor.getColumnIndex(MovieEntry.COLUMN_BACKDROP_PATH)),
+                    mCursor.getString(mCursor.getColumnIndex(MovieEntry.COLUMN_OVERVIEW)),
+                    mCursor.getDouble(mCursor.getColumnIndex(MovieEntry.COLUMN_RATING)),
+                    mCursor.getString(mCursor.getColumnIndex(MovieEntry.COLUMN_RELEASE_YEAR)));
+
+            mClickHandler.onClick(currentMovie, clickedPosition);
         }
     }
 }
