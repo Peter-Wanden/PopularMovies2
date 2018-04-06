@@ -18,7 +18,6 @@ import com.example.peter.popularmovies2.fragments.MovieGridViewFragment;
 import com.example.peter.popularmovies2.model.Movie;
 
 /**
- * TODO - 1. Get ALL of the data required for the next phase
  * TODO - When everything is running as it should be, and if there is time, implement suggestions.
  */
 public class MovieDiscoveryActivity extends AppCompatActivity implements

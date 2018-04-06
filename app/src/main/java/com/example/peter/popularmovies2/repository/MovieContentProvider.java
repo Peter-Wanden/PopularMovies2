@@ -51,7 +51,7 @@ public class MovieContentProvider extends ContentProvider {
 
     @Nullable
     @Override
-    public Cursor query(Uri uri,
+    public Cursor query(@NonNull Uri uri,
                         String[] projection,
                         String selection,
                         String[] selectionArgs,
@@ -148,9 +148,7 @@ public class MovieContentProvider extends ContentProvider {
             return null;
         }
 
-        Log.e(TAG, "Database row insert = " + id);
-
-        getContext().getContentResolver().notifyChange(uri, null);
+        Objects.requireNonNull(getContext()).getContentResolver().notifyChange(uri, null);
 
         return ContentUris.withAppendedId(uri, id);
     }
@@ -210,7 +208,7 @@ public class MovieContentProvider extends ContentProvider {
             case MOVIES:
                 return updateMovie(
                         uri,
-                        values,
+                        Objects.requireNonNull(values),
                         selection,
                         selectionArgs);
 
@@ -221,7 +219,7 @@ public class MovieContentProvider extends ContentProvider {
 
                 return updateMovie(
                         uri,
-                        values,
+                        Objects.requireNonNull(values),
                         selection,
                         selectionArgs);
 

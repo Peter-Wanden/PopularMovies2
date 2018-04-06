@@ -193,14 +193,14 @@ public class NetworkUtils {
      * @param trailerId - The YouTube video ID
      * @return - A URL that points to a thumbnail image
      */
-    public static URL getYouTubeThumbnail(String trailerId) {
-        Uri.Builder getYouTubeThumbnailUrl = Uri.parse(Constants.YOU_TUBE_BASE_THUMBNAIL_IMAGE_URL)
+    public static URL getYouTubeThumbnailUrl(String trailerId) {
+        Uri.Builder getYouTubeThumbnail = Uri.parse(Constants.YOU_TUBE_BASE_THUMBNAIL_IMAGE_URL)
                 .buildUpon();
-        getYouTubeThumbnailUrl.appendPath(trailerId);
-        getYouTubeThumbnailUrl.appendPath(Constants.YOU_TUBE_THUMBNAIL_URL_END_POINT);
+        getYouTubeThumbnail.appendPath(trailerId);
+        getYouTubeThumbnail.appendPath(Constants.YOU_TUBE_THUMBNAIL_URL_END_POINT);
 
         try {
-            return new URL(getYouTubeThumbnailUrl.toString());
+            return new URL(getYouTubeThumbnail.toString());
         } catch (MalformedURLException e) {
             e.printStackTrace();
             return null;

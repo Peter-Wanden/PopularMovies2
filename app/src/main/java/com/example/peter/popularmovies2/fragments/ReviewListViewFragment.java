@@ -27,7 +27,9 @@ import java.util.Objects;
  * Created by peter on 26/03/2018.
  */
 
-public class ReviewListViewFragment extends Fragment implements LoaderManager.LoaderCallbacks<ArrayList<Review>> {
+public class ReviewListViewFragment
+        extends Fragment
+        implements LoaderManager.LoaderCallbacks<ArrayList<Review>> {
 
     private static final String TAG = ReviewListViewFragment.class.getSimpleName();
 

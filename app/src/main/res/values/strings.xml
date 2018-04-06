@@ -50,4 +50,6 @@
     <string name="movie_detail_no_reviews">No reviews available for this movie</string>
     <string name="movie_detail_review_title">reviews</string>
     <string name="movie_detail_trailer_title">Trailers</string>
+    <string name="no_videos_available">No videos availavle for this movie</string>
+    <string name="movie_detail_description_title">overview</string>
 </resources>

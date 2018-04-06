@@ -139,6 +139,21 @@
                 app:layout_constraintRight_toRightOf="@id/movie_detail_release_year"
                 app:layout_constraintTop_toBottomOf="@+id/movie_detail_release_year" />
 
+            <!-- Movie description title -->
+            <TextView
+                android:id="@+id/movie_description_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingTop="8sp"
+                android:text="@string/movie_detail_description_title"
+                android:textAllCaps="true"
+                android:textColor="@android:color/white"
+                android:textSize="18sp"
+                android:textStyle="bold|italic"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/movie_detail_poster_small_iv" />
+
             <!-- Movie description -->
             <TextView
                 android:id="@+id/movie_detail_description_tv"
@@ -150,9 +165,10 @@
                 android:textColor="@android:color/white"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/movie_detail_poster_small_iv"
+                app:layout_constraintTop_toBottomOf="@+id/movie_description_title"
                 tools:text="This is where a long description of the movie goes" />
 
+            <!-- Trailer title -->
             <TextView
                 android:id="@+id/movie_detail_trailer_title"
                 android:layout_width="wrap_content"
@@ -160,12 +176,14 @@
                 android:text="@string/movie_detail_trailer_title"
                 android:textAllCaps="true"
                 android:textColor="@android:color/white"
-                android:textSize="24sp"
-                android:textStyle="bold"
+                android:paddingTop="8sp"
+                android:textSize="18sp"
+                android:textStyle="bold|italic"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/movie_detail_description_tv" />
 
+            <!-- Container for RecyclerView trailer video thumbnails -->
             <FrameLayout
                 android:id="@+id/movie_detail_fragment_trailers_container"
                 android:layout_width="match_parent"
@@ -175,6 +193,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/movie_detail_trailer_title" />
 
+            <!-- Reviews title -->
             <TextView
                 android:id="@+id/movie_detail_reviews_title"
                 android:layout_width="wrap_content"
@@ -182,12 +201,14 @@
                 android:text="@string/movie_detail_review_title"
                 android:textAllCaps="true"
                 android:textColor="@android:color/white"
-                android:textSize="24sp"
-                android:textStyle="bold"
+                android:paddingTop="8sp"
+                android:textSize="18sp"
+                android:textStyle="bold|italic"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/movie_detail_fragment_trailers_container" />
 
+            <!-- Container fo RecyclerView listing the reviews -->
             <FrameLayout
                 android:id="@+id/movie_detail_fragment_reviews_container_rv"
                 android:layout_width="match_parent"
@@ -196,12 +217,6 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/movie_detail_reviews_title" />
-
-
-            <!--<include-->
-            <!--android:id="@+id/movie_details_container_actors"-->
-            <!--layout="@layout/movie_details_reviews_view" />-->
-
         </android.support.constraint.ConstraintLayout>
     </ScrollView>
 </layout>

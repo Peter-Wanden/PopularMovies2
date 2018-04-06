@@ -3,6 +3,7 @@ package com.example.peter.popularmovies2.adapters;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,10 +11,15 @@ import android.widget.ImageView;
 
 import com.example.peter.popularmovies2.R;
 import com.example.peter.popularmovies2.model.Video;
+import com.example.peter.popularmovies2.utils.NetworkUtils;
+import com.squareup.picasso.Picasso;
 
+import java.net.URL;
 import java.util.ArrayList;
 
 public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.VideoAdapterViewHolder> {
+
+    private static final String TAG = VideoAdapter.class.getSimpleName();
 
     private final Context mContext;
     private final ArrayList<Video> mVideos;
@@ -41,9 +47,18 @@ public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.VideoAdapter
                                          videoAdapterViewHolder, int position) {
 
         Video currentVideo = mVideos.get(position);
-        String imagePath = currentVideo.
-        if
+        String videoKey = currentVideo.getVideoKey();
+        URL videoUrl = NetworkUtils.getYouTubeThumbnailUrl(videoKey);
 
+        if (videoUrl == null) {
+            videoAdapterViewHolder.videoImageThumbnail.setVisibility(View.GONE);
+        } else {
+            videoAdapterViewHolder.videoImageThumbnail.setVisibility(View.VISIBLE);
+
+            Picasso.with(mContext)
+                    .load(String.valueOf(videoUrl))
+                    .into(videoAdapterViewHolder.videoImageThumbnail);
+        }
     }
 
     @Override

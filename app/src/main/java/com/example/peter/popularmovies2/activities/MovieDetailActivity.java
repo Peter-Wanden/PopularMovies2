@@ -14,6 +14,7 @@ import com.example.peter.popularmovies2.R;
 import com.example.peter.popularmovies2.app.Constants;
 import com.example.peter.popularmovies2.databinding.ActivityMovieDetailBinding;
 import com.example.peter.popularmovies2.fragments.ReviewListViewFragment;
+import com.example.peter.popularmovies2.fragments.VideoListViewFragment;
 import com.example.peter.popularmovies2.model.Movie;
 import com.example.peter.popularmovies2.repository.FindFavorites;
 import com.example.peter.popularmovies2.utils.NetworkUtils;
@@ -119,21 +120,26 @@ public class MovieDetailActivity extends AppCompatActivity {
 
         // Add the reviews fragment
         FragmentManager reviewFragmentManager = getSupportFragmentManager();
-        FragmentTransaction transaction = reviewFragmentManager.beginTransaction();
+        FragmentTransaction reviewTransaction = reviewFragmentManager.beginTransaction();
         ReviewListViewFragment reviewListViewFragment = (ReviewListViewFragment)
                 reviewFragmentManager.findFragmentById(R.id.fragment_review_recycler_view);
 
         if (reviewListViewFragment == null) reviewListViewFragment = new ReviewListViewFragment();
 
-        transaction.replace(R.id.movie_detail_fragment_reviews_container_rv, reviewListViewFragment)
+        reviewTransaction.replace(R.id.movie_detail_fragment_reviews_container_rv, reviewListViewFragment)
                 .commit();
         reviewListViewFragment.setMovieId(mSelectedMovie.getMovieId());
 
+        // Add the videos fragment
+        FragmentManager videoFragmentManager = getSupportFragmentManager();
+        FragmentTransaction videoTransaction = videoFragmentManager.beginTransaction();
+        VideoListViewFragment videoListViewFragment = (VideoListViewFragment)
+                reviewFragmentManager.findFragmentById(R.id.fragment_video_recycler_view);
 
+        if (videoListViewFragment == null) videoListViewFragment = new VideoListViewFragment();
 
-        // Get the details URL
-        URL movieVideoUrl = NetworkUtils.getMovieVideos(mSelectedMovie.getMovieId());
-        assert movieVideoUrl != null;
-        Log.e(TAG, "Movie videos URL is: " + movieVideoUrl.toString());
+        videoTransaction.replace(R.id.movie_detail_fragment_trailers_container, videoListViewFragment)
+                .commit();
+        videoListViewFragment.setMovieId(mSelectedMovie.getMovieId());
     }
 }

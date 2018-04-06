@@ -4,6 +4,7 @@ import android.util.Log;
 
 import com.example.peter.popularmovies2.model.Movie;
 import com.example.peter.popularmovies2.model.Review;
+import com.example.peter.popularmovies2.model.Video;
 import com.google.gson.Gson;
 
 import java.io.IOException;
@@ -54,7 +55,6 @@ public class GsonUtils {
 
         /* Create the URL object */
         URL url = NetworkUtils.getMovieReviews(movieId);
-        Log.e(TAG, "Review URL is: " + url);
 
         // Perform a HTTP request to the URL and receive a JSON response back.
         String jsonResponse = null;
@@ -72,5 +72,29 @@ public class GsonUtils {
 
     public class NewReviewResults {
         ArrayList<Review> results;
+    }
+
+
+    static ArrayList<Video> getVideos(int movieId) {
+
+        /* Create the URL object */
+        URL url = NetworkUtils.getMovieVideos(movieId);
+
+        // Perform a HTTP request to the URL and receive a JSON response back.
+        String jsonResponse = null;
+        try {
+            assert url != null;
+            jsonResponse = NetworkUtils.getResponseFromHttpUrl(url);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        // Return the results
+        NewVideoResults videoResults = new Gson().fromJson(jsonResponse, NewVideoResults.class);
+
+        return videoResults.results;
+    }
+
+    public class NewVideoResults {
+        ArrayList<Video> results;
     }
 }
