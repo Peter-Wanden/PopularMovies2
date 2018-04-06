@@ -1,5 +1,7 @@
 package com.example.peter.popularmovies2.utils;
 
+import android.util.Log;
+
 import com.example.peter.popularmovies2.model.Movie;
 import com.example.peter.popularmovies2.model.Review;
 import com.google.gson.Gson;
@@ -14,6 +16,8 @@ import java.util.ArrayList;
  */
 
 public class GsonUtils {
+
+    private static final String TAG = GsonUtils.class.getSimpleName();
 
     /**
      * Query the TMDb server and return a list of Movie objects based on user preferences.
@@ -50,6 +54,7 @@ public class GsonUtils {
 
         /* Create the URL object */
         URL url = NetworkUtils.getMovieReviews(movieId);
+        Log.e(TAG, "Review URL is: " + url);
 
         // Perform a HTTP request to the URL and receive a JSON response back.
         String jsonResponse = null;
@@ -62,10 +67,10 @@ public class GsonUtils {
         // Return the results
         NewReviewResults reviewResults = new Gson().fromJson(jsonResponse, NewReviewResults.class);
 
-        return reviewResults.reviews;
+        return reviewResults.results;
     }
 
     public class NewReviewResults {
-        ArrayList<Review> reviews;
+        ArrayList<Review> results;
     }
 }

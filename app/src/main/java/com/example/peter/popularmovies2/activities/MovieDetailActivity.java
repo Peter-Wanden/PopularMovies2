@@ -3,6 +3,8 @@ package com.example.peter.popularmovies2.activities;
 import android.content.Context;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
@@ -11,6 +13,7 @@ import android.view.View;
 import com.example.peter.popularmovies2.R;
 import com.example.peter.popularmovies2.app.Constants;
 import com.example.peter.popularmovies2.databinding.ActivityMovieDetailBinding;
+import com.example.peter.popularmovies2.fragments.ReviewListViewFragment;
 import com.example.peter.popularmovies2.model.Movie;
 import com.example.peter.popularmovies2.repository.FindFavorites;
 import com.example.peter.popularmovies2.utils.NetworkUtils;
@@ -19,14 +22,13 @@ import java.net.URL;
 
 /**
  * Created by peter on 20/03/2018.
- * Manages the detail view
+ * Manages the movie detail view and its fragments
  */
 
 public class MovieDetailActivity extends AppCompatActivity {
 
     private static final String TAG = MovieDetailActivity.class.getSimpleName();
 
-    private static final int REVIEW_LOADER_ID = 400;
     Context context = MovieDetailActivity.this;
     Movie mSelectedMovie;
     boolean favorite;
@@ -115,12 +117,23 @@ public class MovieDetailActivity extends AppCompatActivity {
             }
         });
 
+        // Add the reviews fragment
+        FragmentManager reviewFragmentManager = getSupportFragmentManager();
+        FragmentTransaction transaction = reviewFragmentManager.beginTransaction();
+        ReviewListViewFragment reviewListViewFragment = (ReviewListViewFragment)
+                reviewFragmentManager.findFragmentById(R.id.fragment_review_recycler_view);
+
+        if (reviewListViewFragment == null) reviewListViewFragment = new ReviewListViewFragment();
+
+        transaction.replace(R.id.movie_detail_fragment_reviews_container_rv, reviewListViewFragment)
+                .commit();
+        reviewListViewFragment.setMovieId(mSelectedMovie.getMovieId());
+
+
+
         // Get the details URL
         URL movieVideoUrl = NetworkUtils.getMovieVideos(mSelectedMovie.getMovieId());
         assert movieVideoUrl != null;
         Log.e(TAG, "Movie videos URL is: " + movieVideoUrl.toString());
-
-        URL movieReviewsUrl = NetworkUtils.getMovieReviews(mSelectedMovie.getMovieId());
-        Log.e(TAG, "Movie reviews URL is: " + movieReviewsUrl.toString());
     }
 }

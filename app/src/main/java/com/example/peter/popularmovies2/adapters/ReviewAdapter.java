@@ -16,12 +16,10 @@ import java.util.ArrayList;
 public class ReviewAdapter extends RecyclerView.Adapter<ReviewAdapter.ReviewAdapterViewHolder> {
 
     private final Context mContext;
-    private final ReviewAdapterOnClickHandler mClickHandler;
     private final ArrayList<Review> mReviews;
 
-    public ReviewAdapter(Context context, ReviewAdapterOnClickHandler listener) {
+    public ReviewAdapter(Context context) {
         mContext = context;
-        mClickHandler = listener;
         mReviews = new ArrayList<>();
     }
 
@@ -43,13 +41,8 @@ public class ReviewAdapter extends RecyclerView.Adapter<ReviewAdapter.ReviewAdap
                                          reviewAdapterViewHolder, int position) {
 
         Review currentReview = mReviews.get(position);
-//        String movieId = currentReview.getId();
-//        String author = currentReview.getAuthor();
-//        String comment = currentReview.getComment();
-//        String reviewUrl = currentReview.getUrl();
-
+        reviewAdapterViewHolder.reviewAuthorTextView.setText(currentReview.getAuthor());
         reviewAdapterViewHolder.reviewTextView.setText(currentReview.getComment());
-
     }
 
     @Override
@@ -67,26 +60,16 @@ public class ReviewAdapter extends RecyclerView.Adapter<ReviewAdapter.ReviewAdap
         notifyDataSetChanged();
     }
 
-    public interface ReviewAdapterOnClickHandler {
-        void onClick(Review review, int adapterPosition);
-    }
-
-    class ReviewAdapterViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+    class ReviewAdapterViewHolder extends RecyclerView.ViewHolder {
 
         final TextView reviewTextView;
+        final TextView reviewAuthorTextView;
 
         ReviewAdapterViewHolder(View itemView) {
             super(itemView);
 
-            reviewTextView = itemView.findViewById(R.id.review_list_item_text_view);
-            itemView.setOnClickListener(this);
-        }
-
-        @Override
-        public void onClick(View v) {
-            int clickedPosition = getAdapterPosition();
-            Review currentReview = mReviews.get(clickedPosition);
-            mClickHandler.onClick(currentReview, clickedPosition);
+            reviewAuthorTextView = itemView.findViewById(R.id.review_list_item_author_text_view);
+            reviewTextView = itemView.findViewById(R.id.review_list_item_comment_text_view);
         }
     }
 }

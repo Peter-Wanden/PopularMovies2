@@ -17,12 +17,13 @@ public class Constants {
     public static final String PATH_REVIEW = "reviews";
     public static final String API_KEY = "api_key";
     public static final String API_KEY_VALUE = BuildConfig.API_KEY;
+    public static final String YOU_TUBE_BASE_THUMBNAIL_IMAGE_URL = "https://img.youtube.com/vi";
     // Search types
     public static final int MOST_POPULAR = 0;
     public static final int HIGHEST_RATED = 1;
-    public static final int FAVORITES = 2;
     public static final String POPULARITY = "popular";
     public static final String RATING = "top_rated";
+    public static final String YOU_TUBE_THUMBNAIL_URL_END_POINT = "0.jpg";
 
     /* Image elements */
     // Image sizes
