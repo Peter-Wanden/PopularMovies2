@@ -3,7 +3,6 @@ package com.example.peter.popularmovies2.adapters;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,16 +16,19 @@ import com.squareup.picasso.Picasso;
 import java.net.URL;
 import java.util.ArrayList;
 
+/**
+ * This adapter provides a list of available video's
+ */
 public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.VideoAdapterViewHolder> {
-
-    private static final String TAG = VideoAdapter.class.getSimpleName();
 
     private final Context mContext;
     private final ArrayList<Video> mVideos;
+    final private VideoAdapterOnClickHandler mClickHandler;
 
-    public VideoAdapter(Context context) {
+    public VideoAdapter(Context context, VideoAdapterOnClickHandler listener) {
         mContext = context;
         mVideos = new ArrayList<>();
+        mClickHandler = listener;
     }
 
     @NonNull
@@ -76,7 +78,7 @@ public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.VideoAdapter
         notifyDataSetChanged();
     }
 
-    class VideoAdapterViewHolder extends RecyclerView.ViewHolder {
+    class VideoAdapterViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
 
         final ImageView videoImageThumbnail;
 
@@ -84,6 +86,19 @@ public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.VideoAdapter
             super(itemView);
 
             videoImageThumbnail = itemView.findViewById(R.id.movie_detail_poster_small_iv);
+
+            itemView.setOnClickListener(this);
         }
+
+        @Override
+        public void onClick(View v) {
+            int clickedPosition = getAdapterPosition();
+            Video currentVideo = mVideos.get(clickedPosition);
+            mClickHandler.onClick(currentVideo);
+        }
+    }
+
+    public interface VideoAdapterOnClickHandler {
+        void onClick(Video currentVideo);
     }
 }

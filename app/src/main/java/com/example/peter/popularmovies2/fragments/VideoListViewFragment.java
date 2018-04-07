@@ -1,5 +1,8 @@
 package com.example.peter.popularmovies2.fragments;
 
+import android.content.ActivityNotFoundException;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -15,6 +18,7 @@ import android.widget.TextView;
 
 import com.example.peter.popularmovies2.R;
 import com.example.peter.popularmovies2.adapters.VideoAdapter;
+import com.example.peter.popularmovies2.app.Constants;
 import com.example.peter.popularmovies2.model.Video;
 import com.example.peter.popularmovies2.utils.NetworkUtils;
 import com.example.peter.popularmovies2.utils.VideoLoader;
@@ -25,19 +29,15 @@ import java.util.Objects;
 /**
  * Displays a list of a movies videos and trailers available on YouTube
  * Created by peter on 26/03/2018.
- * Todo - Implement intent to launch YouTube
  */
 
-public class VideoListViewFragment
-        extends Fragment
-        implements LoaderManager.LoaderCallbacks<ArrayList<Video>> {
-
-    private static final String TAG = VideoListViewFragment.class.getSimpleName();
+public class VideoListViewFragment extends Fragment implements
+        LoaderManager.LoaderCallbacks<ArrayList<Video>>,
+        VideoAdapter.VideoAdapterOnClickHandler {
 
     private static final int VIDEO_LOADER_ID = 401;
-    protected VideoAdapter mVideoAdapter;
-    protected RecyclerView mRecyclerView;
-    protected LinearLayoutManager mLayoutManager;
+    private VideoAdapter mVideoAdapter;
+    private RecyclerView mRecyclerView;
     private View mLoadingIndicator;
     private TextView mEmptyStateTextView;
     private int mMovieId;
@@ -64,8 +64,8 @@ public class VideoListViewFragment
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        mVideoAdapter = new VideoAdapter(getActivity());
-        mLayoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL,
+        mVideoAdapter = new VideoAdapter(getActivity(), this);
+        LinearLayoutManager mLayoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL,
                 false);
         mRecyclerView.setLayoutManager(mLayoutManager);
         mRecyclerView.setAdapter(mVideoAdapter);
@@ -101,5 +101,21 @@ public class VideoListViewFragment
 
     public void setMovieId(int movieId) {
         mMovieId = movieId;
+    }
+
+    /* Implements the click interface in the VideoAdapter */
+    @Override
+    public void onClick(Video currentVideo) {
+        Intent youTubeAppIntent = new Intent(Intent.ACTION_VIEW,
+                Uri.parse("vnd.youtube:" + currentVideo.getVideoKey()));
+
+        Intent browserIntent = new Intent(Intent.ACTION_VIEW,
+                Uri.parse(Constants.YT_VIDEO_URL));
+
+        try {
+            Objects.requireNonNull(getActivity()).startActivity(youTubeAppIntent);
+        } catch (ActivityNotFoundException appNotFoundLaunchBrowser) {
+            getActivity().startActivity(browserIntent);
+        }
     }
 }

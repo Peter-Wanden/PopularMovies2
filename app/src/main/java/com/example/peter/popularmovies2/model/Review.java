@@ -79,14 +79,6 @@ public class Review implements Parcelable {
         return mComment;
     }
 
-    public String getId() {
-        return mId;
-    }
-
-    public String getUrl(){
-        return mUrl;
-    }
-
     @Override
     public int describeContents() {
         return 0;

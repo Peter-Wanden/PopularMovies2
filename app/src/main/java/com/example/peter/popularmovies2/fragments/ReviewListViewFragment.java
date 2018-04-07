@@ -31,12 +31,10 @@ public class ReviewListViewFragment
         extends Fragment
         implements LoaderManager.LoaderCallbacks<ArrayList<Review>> {
 
-    private static final String TAG = ReviewListViewFragment.class.getSimpleName();
-
     private static final int REVIEW_LOADER_ID = 301;
-    protected ReviewAdapter mReviewAdapter;
-    protected RecyclerView mRecyclerView;
-    protected LinearLayoutManager mLayoutManager;
+
+    private ReviewAdapter mReviewAdapter;
+    private RecyclerView mRecyclerView;
     private TextView mEmptyStateTextView;
     private View mLoadingIndicator;
     private int mMovieId;
@@ -66,7 +64,7 @@ public class ReviewListViewFragment
         super.onActivityCreated(savedInstanceState);
 
         mReviewAdapter = new ReviewAdapter(getActivity());
-        mLayoutManager = new LinearLayoutManager(getActivity(),
+        LinearLayoutManager mLayoutManager = new LinearLayoutManager(getActivity(),
                 LinearLayoutManager.VERTICAL, false);
         mRecyclerView.setLayoutManager(mLayoutManager);
         mRecyclerView.setAdapter(mReviewAdapter);

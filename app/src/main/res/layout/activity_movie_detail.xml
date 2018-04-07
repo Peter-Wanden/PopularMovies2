@@ -55,7 +55,8 @@
                 app:layout_constraintBottom_toBottomOf="@+id/movie_detail_poster_small_iv"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintLeft_toRightOf="@+id/movie_detail_poster_small_iv"
-                app:layout_constraintTop_toTopOf="@+id/movie_detail_poster_small_iv" />
+                app:layout_constraintTop_toTopOf="@+id/movie_detail_poster_small_iv"
+                tools:src="@drawable/ic_favorite_black_24px"/>
 
             <!-- Movie Title -->
             <TextView
@@ -144,7 +145,7 @@
                 android:id="@+id/movie_description_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:paddingTop="8sp"
+                android:paddingTop="12dp"
                 android:text="@string/movie_detail_description_title"
                 android:textAllCaps="true"
                 android:textColor="@android:color/white"
@@ -176,7 +177,6 @@
                 android:text="@string/movie_detail_trailer_title"
                 android:textAllCaps="true"
                 android:textColor="@android:color/white"
-                android:paddingTop="8sp"
                 android:textSize="18sp"
                 android:textStyle="bold|italic"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -201,7 +201,7 @@
                 android:text="@string/movie_detail_review_title"
                 android:textAllCaps="true"
                 android:textColor="@android:color/white"
-                android:paddingTop="8sp"
+                android:paddingBottom="8sp"
                 android:textSize="18sp"
                 android:textStyle="bold|italic"
                 app:layout_constraintEnd_toEndOf="parent"

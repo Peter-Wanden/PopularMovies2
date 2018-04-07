@@ -6,9 +6,7 @@ import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
-
 
 import com.example.peter.popularmovies2.R;
 import com.example.peter.popularmovies2.app.Constants;
@@ -28,11 +26,9 @@ import java.net.URL;
 
 public class MovieDetailActivity extends AppCompatActivity {
 
-    private static final String TAG = MovieDetailActivity.class.getSimpleName();
-
-    Context context = MovieDetailActivity.this;
-    Movie mSelectedMovie;
-    boolean favorite;
+    private final Context context = MovieDetailActivity.this;
+    private Movie mSelectedMovie;
+    private boolean favorite;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {

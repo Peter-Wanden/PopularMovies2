@@ -35,19 +35,16 @@ public class FavoritesFragment extends Fragment implements
     // Loader id
     private static final int FAVORITES_LOADER_ID = 301;
     // Instantiate adapter
-    protected FavoritesAdapter mFavoritesAdapter;
-    // Instantiate RecyclerView
-    protected RecyclerView mRecyclerView;
-    // Instantiate LayoutManager
-    protected GridLayoutManager mLayoutManager;
+    private FavoritesAdapter mFavoritesAdapter;
     // Interface to activity
-    OnFavoriteSelectedListener mMovieCallback;
+    private OnFavoriteSelectedListener mMovieCallback;
     // Loading indicator
     private View mLoadingIndicator;
     // TextView that is displayed when the movie list is empty
     private TextView mEmptyStateTextView;
     // RecyclerView position
     private int mPosition = RecyclerView.NO_POSITION;
+
     // Mandatory empty constructor for instantiating the fragment
     public FavoritesFragment() {}
 
@@ -61,11 +58,11 @@ public class FavoritesFragment extends Fragment implements
 
         mLoadingIndicator = rootView.findViewById(R.id.loading_indicator);
         mEmptyStateTextView = rootView.findViewById(R.id.empty_view);
-        mRecyclerView = rootView.findViewById(R.id.fragment_movie_recycler_view);
+        RecyclerView mRecyclerView = rootView.findViewById(R.id.fragment_movie_recycler_view);
 
         mFavoritesAdapter = new FavoritesAdapter(getActivity(), this);
 
-        mLayoutManager = new GridLayoutManager(
+        GridLayoutManager mLayoutManager = new GridLayoutManager(
                 getActivity(),
                 getResources().getInteger(R.integer.num_columns));
         mLayoutManager.getHeight();
@@ -145,7 +142,7 @@ public class FavoritesFragment extends Fragment implements
 
     /* Click interface from the FavouritesAdapter */
     @Override
-    public void onClick(Movie clickedMovie, int adapterPosition) {
+    public void onClick(Movie clickedMovie) {
         mMovieCallback.onFavoriteSelected(clickedMovie);
     }
 }

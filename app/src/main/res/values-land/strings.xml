@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="empty_state_text_view_favorites">Click the heart on a movie to add to your favorites</string>
-    <string name="reviews">Reviews</string>
     <string name="movie_detail_review_title">reviews</string>
-    <string name="no_videos_available">No videos availavle for this movie</string>
+    <string name="no_videos_available">No videos available for this movie</string>
     <string name="movie_detail_description_title">overview</string>
+    <string name="press_to_play_trailer_on_youtube">Press to play trailer on youtube</string>
 </resources>

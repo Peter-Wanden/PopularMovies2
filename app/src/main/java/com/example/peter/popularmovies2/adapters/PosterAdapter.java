@@ -100,7 +100,6 @@ public class PosterAdapter extends RecyclerView.Adapter<PosterAdapter.PosterAdap
         posterAdapterViewHolder.movieTitleTextView.setText(currentMovie.getTitle());
 
         /* If a valid movie poster URL endpoint is not available */
-        // TODO - Check the value entered by Gson when no value in JSON - Use a Json test file
         if (imagePath.length() == 0) {
 
             // Swap the visibilities of the various views
@@ -209,7 +208,6 @@ public class PosterAdapter extends RecyclerView.Adapter<PosterAdapter.PosterAdap
          */
         @Override
         public void onClick(View v) {
-            // TODO - Save adapter position here, as is last place before intent to Detail Activity
             int clickedPosition = getAdapterPosition();
             Movie currentMovie = mMovies.get(clickedPosition);
             mClickHandler.onClick(currentMovie, clickedPosition);

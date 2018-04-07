@@ -8,7 +8,7 @@ public class MovieContract {
 
     public static final String PATH_MOVIE = "movie";
     public static final String CONTENT_AUTHORITY = "com.example.peter.popularmovies2";
-    public static final Uri BASE_CONTENT_URI = Uri.parse("content://" + CONTENT_AUTHORITY);
+    private static final Uri BASE_CONTENT_URI = Uri.parse("content://" + CONTENT_AUTHORITY);
 
     private MovieContract() {
     }

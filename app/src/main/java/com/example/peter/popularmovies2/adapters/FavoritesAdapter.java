@@ -2,7 +2,6 @@ package com.example.peter.popularmovies2.adapters;
 
 import android.content.Context;
 import android.database.Cursor;
-import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -21,9 +20,8 @@ import com.squareup.picasso.Picasso;
 /**
  * This adapter uses a cursor instead of an ArrayList as its data source.
  */
-public class FavoritesAdapter extends RecyclerView.Adapter<FavoritesAdapter.FavoritesAdapterViewHolder> {
-
-    private static final String TAG = FavoritesAdapter.class.getSimpleName();
+public class FavoritesAdapter extends
+        RecyclerView.Adapter<FavoritesAdapter.FavoritesAdapterViewHolder> {
 
     /* Used to access utility methods, app resources and layout inflaters */
     private final Context mContext;
@@ -65,7 +63,6 @@ public class FavoritesAdapter extends RecyclerView.Adapter<FavoritesAdapter.Favo
 
         favoritesAdapterViewHolder.movieTitleTextView.setText(movieTitle);
 
-        // TODO - check the null value Gson uses if value is not present
         if (imagePath.length() == 0) {
             // Swap the visibilities of the various views
             favoritesAdapterViewHolder.listItemImageView.setVisibility(View.GONE);
@@ -110,7 +107,7 @@ public class FavoritesAdapter extends RecyclerView.Adapter<FavoritesAdapter.Favo
 
     /* The interface that receives onClick messages. */
     public interface FavoritesAdapterOnClickHandler {
-        void onClick(Movie clickedMovie, int adapterPosition);
+        void onClick(Movie clickedMovie);
     }
 
     /**
@@ -152,7 +149,7 @@ public class FavoritesAdapter extends RecyclerView.Adapter<FavoritesAdapter.Favo
                     mCursor.getDouble(mCursor.getColumnIndex(MovieEntry.COLUMN_RATING)),
                     mCursor.getString(mCursor.getColumnIndex(MovieEntry.COLUMN_RELEASE_YEAR)));
 
-            mClickHandler.onClick(currentMovie, clickedPosition);
+            mClickHandler.onClick(currentMovie);
         }
     }
 }

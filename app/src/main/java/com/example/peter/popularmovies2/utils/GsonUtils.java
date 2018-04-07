@@ -1,7 +1,5 @@
 package com.example.peter.popularmovies2.utils;
 
-import android.util.Log;
-
 import com.example.peter.popularmovies2.model.Movie;
 import com.example.peter.popularmovies2.model.Review;
 import com.example.peter.popularmovies2.model.Video;
@@ -16,9 +14,7 @@ import java.util.ArrayList;
  * Utility class with methods to return a new list of movie objects.
  */
 
-public class GsonUtils {
-
-    private static final String TAG = GsonUtils.class.getSimpleName();
+class GsonUtils {
 
     /**
      * Query the TMDb server and return a list of Movie objects based on user preferences.
@@ -44,7 +40,7 @@ public class GsonUtils {
     }
 
     // Inner class provides a container for the movie results
-    public class NewMovieResults {
+    class NewMovieResults {
         ArrayList<Movie> results;
     }
 
@@ -70,7 +66,7 @@ public class GsonUtils {
         return reviewResults.results;
     }
 
-    public class NewReviewResults {
+    class NewReviewResults {
         ArrayList<Review> results;
     }
 
@@ -94,7 +90,7 @@ public class GsonUtils {
         return videoResults.results;
     }
 
-    public class NewVideoResults {
+    class NewVideoResults {
         ArrayList<Video> results;
     }
 }

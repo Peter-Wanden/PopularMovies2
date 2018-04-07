@@ -25,19 +25,14 @@ import com.example.peter.popularmovies2.utils.NetworkUtils;
 import java.util.ArrayList;
 import java.util.Objects;
 
-/**
- * Created by peter on 21/03/2018.
- * Displays a list of movies in a grid view
- */
-
-public class MovieGridViewFragment extends Fragment implements
+public class PopularFragment extends Fragment implements
         LoaderManager.LoaderCallbacks<ArrayList<Movie>>,
         PosterAdapter.PosterAdapterOnClickHandler {
 
-    private static final String TAG = MovieGridViewFragment.class.getSimpleName();
+    private static final String TAG = PopularFragment.class.getSimpleName();
 
     // Loader id
-    private static final int POSTER_LOADER_ID = 100;
+    private static final int POSTER_LOADER_ID = 500;
     // Instantiate adapter
     private PosterAdapter mPosterAdapter;
     // Instantiate RecyclerView
@@ -47,7 +42,7 @@ public class MovieGridViewFragment extends Fragment implements
     // Instantiate LayoutManager
     GridLayoutManager mLayoutManager;
     // Interface to activity
-    private OnMovieSelectedListener mMovieCallback;
+    private PopularFragment.OnMovieSelectedListener mMovieCallback;
     // Loading indicator
     private View mLoadingIndicator;
     // TextView that is displayed when the movie list is empty
@@ -56,7 +51,7 @@ public class MovieGridViewFragment extends Fragment implements
     private int mMovieSearchType;
 
     // Mandatory empty constructor for instantiating the fragment
-    public MovieGridViewFragment(){}
+    public PopularFragment(){}
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater,
@@ -86,17 +81,6 @@ public class MovieGridViewFragment extends Fragment implements
         super.onActivityCreated(savedInstanceState);
 
         Log.e(TAG, "onActivityCreated called");
-
-        if (savedInstanceState != null) {
-            if (savedInstanceState.containsKey("list_state_key")) {
-                Log.e(TAG, "savedInstanceState has key!");
-                mListState = savedInstanceState.getParcelable("list_state_key");
-
-            } else {
-                Log.e(TAG, "Saved instance state has no key");
-            }
-
-        }
 
         /* Create a new adapter that takes an empty list of Movie objects */
         mPosterAdapter = new PosterAdapter(getActivity(),this);
@@ -176,7 +160,7 @@ public class MovieGridViewFragment extends Fragment implements
         Log.e(TAG, "OnAttach called");
         // Make sure the host activity has implemented the OnMovieSelectedListener callback interface
         try {
-            mMovieCallback = (OnMovieSelectedListener) context;
+            mMovieCallback = (PopularFragment.OnMovieSelectedListener) context;
         } catch (ClassCastException e) {
             throw new ClassCastException(context.toString()
                     + " must implement OnMovieSelectedListener");
@@ -185,13 +169,13 @@ public class MovieGridViewFragment extends Fragment implements
 
     // OnMovieSelected interface, calls a method in the host activity named onMovieSelected
     public interface OnMovieSelectedListener {
-        void onMovieSelected(Movie movie);
+        void onPopularMovieSelected(Movie movie);
     }
 
     /* Implements the onClick interface from the PosterAdapter */
     @Override
     public void onClick(Movie clickedMovie, int adapterPosition) {
-        mMovieCallback.onMovieSelected(clickedMovie);
+        mMovieCallback.onPopularMovieSelected(clickedMovie);
     }
 
     // Called by the parent activity when a button on the BottomNavigationBar is pressed
@@ -214,18 +198,10 @@ public class MovieGridViewFragment extends Fragment implements
             Log.e(TAG, "onViewStateRestored - SavedInstanceState retrieved");
             if(savedInstanceState.containsKey("list_state_key")) {
                 mListState = savedInstanceState.getParcelable("list_state_key");
+                mLayoutManager.onRestoreInstanceState(mListState);
                 Log.e(TAG, "onViewStateRestored - mListState updated");
             }
         }
         super.onViewStateRestored(savedInstanceState);
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        if (mListState != null) {
-            mLayoutManager.onRestoreInstanceState(mListState);
-            Log.e(TAG, "LayoutManager state restored");
-        }
     }
 }

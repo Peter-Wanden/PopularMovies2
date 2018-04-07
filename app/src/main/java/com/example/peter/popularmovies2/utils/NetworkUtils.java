@@ -188,16 +188,16 @@ public class NetworkUtils {
     }
 
     /**
-     * This method returns a URL pointing to a thumbnail image representing the trailer vodeo
+     * This method returns a URL pointing to a thumbnail image representing the trailer video
      *
      * @param trailerId - The YouTube video ID
      * @return - A URL that points to a thumbnail image
      */
     public static URL getYouTubeThumbnailUrl(String trailerId) {
-        Uri.Builder getYouTubeThumbnail = Uri.parse(Constants.YOU_TUBE_BASE_THUMBNAIL_IMAGE_URL)
+        Uri.Builder getYouTubeThumbnail = Uri.parse(Constants.YT_BASE_THUMBNAIL_IMAGE_URL)
                 .buildUpon();
         getYouTubeThumbnail.appendPath(trailerId);
-        getYouTubeThumbnail.appendPath(Constants.YOU_TUBE_THUMBNAIL_URL_END_POINT);
+        getYouTubeThumbnail.appendPath(Constants.YT_THUMBNAIL_URL_END_POINT);
 
         try {
             return new URL(getYouTubeThumbnail.toString());
