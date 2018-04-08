@@ -42,8 +42,6 @@ public class MovieGridViewFragment extends Fragment implements
     private PosterAdapter mPosterAdapter;
     // Instantiate RecyclerView
     private RecyclerView mRecyclerView;
-    // Parcelable for managing GridLayoutManager's list state
-    private Parcelable mListState;
     // Instantiate LayoutManager
     GridLayoutManager mLayoutManager;
     // Interface to activity
@@ -62,8 +60,6 @@ public class MovieGridViewFragment extends Fragment implements
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container,
                              Bundle savedInstanceState ) {
-
-        Log.e(TAG, "onCreateView called");
 
         View rootView = inflater.inflate(R.layout.fragment_movie_recycler_view, container,
                 false);
@@ -84,19 +80,6 @@ public class MovieGridViewFragment extends Fragment implements
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-
-        Log.e(TAG, "onActivityCreated called");
-
-        if (savedInstanceState != null) {
-            if (savedInstanceState.containsKey("list_state_key")) {
-                Log.e(TAG, "savedInstanceState has key!");
-                mListState = savedInstanceState.getParcelable("list_state_key");
-
-            } else {
-                Log.e(TAG, "Saved instance state has no key");
-            }
-
-        }
 
         /* Create a new adapter that takes an empty list of Movie objects */
         mPosterAdapter = new PosterAdapter(getActivity(),this);
@@ -119,17 +102,13 @@ public class MovieGridViewFragment extends Fragment implements
          */
         mRecyclerView.setHasFixedSize(true);
 
-        if (savedInstanceState == null) {
-            Log.e(TAG, "savedInstanceState is null");
-            /* Check to see if we have a valid network connection */
-            if (NetworkUtils.getNetworkStatus(Objects.requireNonNull(getActivity()))) {
+        if (NetworkUtils.getNetworkStatus(Objects.requireNonNull(getActivity()))) {
 
-                /* Ensures a loader is initialized and active. If the loader doesn't already
-                 * exist, one is created and (if the activity/fragment is currently started)
-                 * starts the loader. Otherwise the last created loader is re-used.
-                 */
-                getLoaderManager().initLoader(POSTER_LOADER_ID, null, this);
-            }
+            /* Ensures a loader is initialized and active. If the loader doesn't already
+             * exist, one is created and (if the activity/fragment is currently started)
+             * starts the loader. Otherwise the last created loader is re-used.
+             */
+            getLoaderManager().initLoader(POSTER_LOADER_ID, null, this);
         }
     }
 
@@ -152,13 +131,13 @@ public class MovieGridViewFragment extends Fragment implements
             mPosterAdapter.updateMovies(movies);
             // Turn off the empty state text view.
             mEmptyStateTextView.setVisibility(View.GONE);
-            Log.e(TAG, "OnLoadFinished called - dataset swapped");
-            if(mListState != null) {
-                Log.e(TAG, "mLayoutManager is not null - updating the list state");
-                mLayoutManager.onRestoreInstanceState(mListState);
-            } else {
-                Log.e(TAG, "mListState is null");
-            }
+            Log.e(TAG, "OnLoadFinished called - data set swapped");
+//            if(mListState != null) {
+//                Log.e(TAG, "mLayoutManager is not null - updating the list state");
+//                mLayoutManager.onRestoreInstanceState(mListState);
+//            } else {
+//                Log.e(TAG, "mListState is null");
+//            }
 
         }
     }
@@ -183,7 +162,7 @@ public class MovieGridViewFragment extends Fragment implements
         }
     }
 
-    // OnMovieSelected interface, calls a method in the host activity named onMovieSelected
+    /* OnMovieSelected interface, calls a method in the host activity named onMovieSelected */
     public interface OnMovieSelectedListener {
         void onMovieSelected(Movie movie);
     }
@@ -194,38 +173,38 @@ public class MovieGridViewFragment extends Fragment implements
         mMovieCallback.onMovieSelected(clickedMovie);
     }
 
-    // Called by the parent activity when a button on the BottomNavigationBar is pressed
+    /* Called by the parent activity when a button on the BottomNavigationBar is pressed */
     public void setMovieSearchType (int searchType) {
         mMovieSearchType = searchType;
     }
 
-    @Override
-    public void onSaveInstanceState(@NonNull Bundle outState) {
-        super.onSaveInstanceState(outState);
-        // Save the list state
-        mListState = mLayoutManager.onSaveInstanceState();
-        Log.e(TAG, "Out state saved: " + mListState);
-        outState.putParcelable("list_state_key", mListState);
-    }
+//    @Override
+//    public void onSaveInstanceState(@NonNull Bundle outState) {
+//        super.onSaveInstanceState(outState);
+//        // Save the list state
+//        mListState = mLayoutManager.onSaveInstanceState();
+//        Log.e(TAG, "Out state saved: " + mListState);
+//        outState.putParcelable("list_state_key", mListState);
+//    }
 
-    @Override
-    public void onViewStateRestored(@Nullable Bundle savedInstanceState) {
-        if(savedInstanceState != null) {
-            Log.e(TAG, "onViewStateRestored - SavedInstanceState retrieved");
-            if(savedInstanceState.containsKey("list_state_key")) {
-                mListState = savedInstanceState.getParcelable("list_state_key");
-                Log.e(TAG, "onViewStateRestored - mListState updated");
-            }
-        }
-        super.onViewStateRestored(savedInstanceState);
-    }
+//    @Override
+//    public void onViewStateRestored(@Nullable Bundle savedInstanceState) {
+//        if(savedInstanceState != null) {
+//            Log.e(TAG, "onViewStateRestored - SavedInstanceState retrieved");
+//            if(savedInstanceState.containsKey("list_state_key")) {
+//                mListState = savedInstanceState.getParcelable("list_state_key");
+//                Log.e(TAG, "onViewStateRestored - mListState updated");
+//            }
+//        }
+//        super.onViewStateRestored(savedInstanceState);
+//    }
 
-    @Override
-    public void onResume() {
-        super.onResume();
-        if (mListState != null) {
-            mLayoutManager.onRestoreInstanceState(mListState);
-            Log.e(TAG, "LayoutManager state restored");
-        }
-    }
+//    @Override
+//    public void onResume() {
+//        super.onResume();
+//        if (mListState != null) {
+//            mLayoutManager.onRestoreInstanceState(mListState);
+//            Log.e(TAG, "LayoutManager state restored");
+//        }
+//    }
 }
