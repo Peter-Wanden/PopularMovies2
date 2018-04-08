@@ -27,7 +27,7 @@ import java.util.Objects;
  * Created by peter on 26/03/2018.
  */
 
-public class ReviewListViewFragment
+public class ReviewFragment
         extends Fragment
         implements LoaderManager.LoaderCallbacks<ArrayList<Review>> {
 
@@ -40,7 +40,7 @@ public class ReviewListViewFragment
     private int mMovieId;
 
 
-    public ReviewListViewFragment() {
+    public ReviewFragment() {
     }
 
     @Nullable

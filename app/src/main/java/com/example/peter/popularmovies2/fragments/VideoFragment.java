@@ -31,7 +31,7 @@ import java.util.Objects;
  * Created by peter on 26/03/2018.
  */
 
-public class VideoListViewFragment extends Fragment implements
+public class VideoFragment extends Fragment implements
         LoaderManager.LoaderCallbacks<ArrayList<Video>>,
         VideoAdapter.VideoAdapterOnClickHandler {
 
@@ -42,7 +42,7 @@ public class VideoListViewFragment extends Fragment implements
     private TextView mEmptyStateTextView;
     private int mMovieId;
 
-    public VideoListViewFragment() {
+    public VideoFragment() {
     }
 
     @Nullable

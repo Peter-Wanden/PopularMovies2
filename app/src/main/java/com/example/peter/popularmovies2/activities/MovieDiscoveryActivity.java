@@ -35,17 +35,24 @@ public class MovieDiscoveryActivity extends AppCompatActivity implements
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        // Main view for this activity
+        /* Main view for this activity */
         setContentView(R.layout.activity_movie_discovery);
 
-        // Find the nav bar and attach a listener
+        /* Find the nav bar and attach a listener */
         mNavigationView = findViewById(R.id.bottom_navigation_widget);
         mNavigationView.setOnNavigationItemSelectedListener(this);
 
-        // Get the last used menu item and set it as the default.
-//        int navigationPreference = PreferenceManager.getDefaultSharedPreferences(this)
-//                .getInt(BOTTOM_NAVIGATION_SELECTED, R.id.movies_highest_rated);
-//        mNavigationView.setSelectedItemId(navigationPreference);
+        /* If there is no saved instance state, this is a new run, so get the last used navigation
+         * selection and load new data.
+         */
+        if (savedInstanceState == null) {
+
+            int navigationItem = PreferenceManager
+                    .getDefaultSharedPreferences(this)
+                    .getInt(BOTTOM_NAVIGATION_SELECTED, R.id.movies_highest_rated);
+
+            mNavigationView.setSelectedItemId(navigationItem);
+        }
     }
 
     /**
@@ -57,21 +64,22 @@ public class MovieDiscoveryActivity extends AppCompatActivity implements
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
 
-        // Item from the nav bar has been selected so start fragment transaction
+        /* An item from the nav bar has been selected, so start fragment transaction */
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 
-        // Switch through the menu item ID
+        /* Switch through the menu item ID */
         switch (item.getItemId()) {
 
-            // Top rated movies.
+            /* Top rated movies. */
             case R.id.movies_highest_rated:
-                // Find the view, set the title.
+                // Set the title, find the view.
                 setTitle(R.string.movies_top_rated);
 
                 // Binds the new fragment to its view.
                 MovieGridViewFragment topRatedFragment = (MovieGridViewFragment)
                         fragmentManager.findFragmentById(R.id.fragment_movie_recycler_view);
+
                 // If the fragment does not exist yet create a new one.
                 if (topRatedFragment == null) {
                     topRatedFragment = new MovieGridViewFragment();
@@ -85,9 +93,11 @@ public class MovieDiscoveryActivity extends AppCompatActivity implements
                 topRatedFragment.setMovieSearchType(Constants.HIGHEST_RATED);
                 break;
 
-            // Most popular movies.
+            /* Most popular movies. */
             case R.id.movies_most_popular:
+                // Set the title, find the view.
                 setTitle(R.string.movies_most_popular);
+
                 MovieGridViewFragment mostPopularFragment = (MovieGridViewFragment)
                         fragmentManager.findFragmentById(R.id.fragment_movie_recycler_view);
                 if (mostPopularFragment == null) {
@@ -98,7 +108,9 @@ public class MovieDiscoveryActivity extends AppCompatActivity implements
                 mostPopularFragment.setMovieSearchType(Constants.MOST_POPULAR);
                 break;
 
+            /* Favorite movies. */
             case R.id.movies_favorites:
+                // Set the title, find the view.
                 setTitle(R.string.movies_favorite);
                 FavoritesFragment favoritesFragment = (FavoritesFragment)
                         fragmentManager.findFragmentById(R.id.fragment_movie_recycler_view);
@@ -138,26 +150,15 @@ public class MovieDiscoveryActivity extends AppCompatActivity implements
         startActivity(intent);
     }
 
-    /**
-     * onStop()     - Saves the current BottomNavigationBar preference
-     * onStart()    - Retrieves and sets the last used BottomNavigationBar preference
-     */
-//    @Override
-//    protected void onStart() {
-//        super.onStart();
-//        int navigationPreference = PreferenceManager.getDefaultSharedPreferences(this)
-//                .getInt(BOTTOM_NAVIGATION_SELECTED, R.id.movies_highest_rated);
-//        mNavigationView.setSelectedItemId(navigationPreference);
-//    }
-
+    /* Save the users last selected navigation menu item */
     @Override
-    protected void onStop() {
+    protected void onSaveInstanceState(Bundle outState) {
         PreferenceManager.getDefaultSharedPreferences(this)
                 .edit()
                 .putInt(BOTTOM_NAVIGATION_SELECTED,
                         mNavigationView
                                 .getSelectedItemId())
                 .apply();
-        super.onStop();
+        super.onSaveInstanceState(outState);
     }
 }

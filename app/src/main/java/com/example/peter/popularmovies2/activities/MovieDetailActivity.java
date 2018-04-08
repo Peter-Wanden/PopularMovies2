@@ -11,8 +11,8 @@ import android.view.View;
 import com.example.peter.popularmovies2.R;
 import com.example.peter.popularmovies2.app.Constants;
 import com.example.peter.popularmovies2.databinding.ActivityMovieDetailBinding;
-import com.example.peter.popularmovies2.fragments.ReviewListViewFragment;
-import com.example.peter.popularmovies2.fragments.VideoListViewFragment;
+import com.example.peter.popularmovies2.fragments.ReviewFragment;
+import com.example.peter.popularmovies2.fragments.VideoFragment;
 import com.example.peter.popularmovies2.model.Movie;
 import com.example.peter.popularmovies2.repository.FindFavorites;
 import com.example.peter.popularmovies2.utils.NetworkUtils;
@@ -34,58 +34,64 @@ public class MovieDetailActivity extends AppCompatActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        // Sets up the view for us to bind data to.
+        /* Sets up the view for us to bind data to. */
         final ActivityMovieDetailBinding detailBinding =
                 DataBindingUtil.setContentView(this, R.layout.activity_movie_detail);
 
-        // Extract the parcelable data from the intent and turn it back into a Movie object
+        /* Extract the parcelable data from the intent and turn it back into a Movie object */
         mSelectedMovie = getIntent().getParcelableExtra(Constants.SELECTED_MOVIE_KEY);
 
-        // Load the backdrop
+        /* Load the backdrop */
         if (mSelectedMovie.getBackdropImagePath() != null) {
-            URL backdropUrl = NetworkUtils.getMovieImageUrl(Constants
+
+            URL backdropUrl = NetworkUtils
+                    .getMovieImageUrl(Constants
                     .IMAGE_SIZE_XLARGE, mSelectedMovie.getBackdropImagePath());
+
             if (backdropUrl != null) {
                 String backDrop = backdropUrl.toString();
-                // Load the backdrop.
+
                 Picasso.with(this)
                         .load(backDrop)
                         .into(detailBinding.movieDetailTrailerThumbnailIv);
             }
         }
 
-        // Load the poster
+        /* Load the poster */
         if (mSelectedMovie.getPosterImagePath() != null) {
             URL posterUrl = NetworkUtils.getMovieImageUrl(Constants
                     .IMAGE_SIZE_SMALL, mSelectedMovie.getPosterImagePath());
+
             if (posterUrl != null) {
                 String poster = posterUrl.toString();
-                // Load the poster.
+
                 Picasso.with(this)
                         .load(poster)
                         .into(detailBinding.movieDetailPosterSmallIv);
             }
         }
 
-        // Set the title
-        detailBinding.movieDetailTitleTv.setText(mSelectedMovie.getOriginalTitle());
+        /* Set the title */
+        detailBinding.movieDetailTitleTv
+                .setText(mSelectedMovie.getOriginalTitle());
 
-        // Set the rating
-        detailBinding.movieDetailVoteAverageTv.setText(String.valueOf(mSelectedMovie.getUserRating()));
+        /* Set the rating */
+        detailBinding.movieDetailVoteAverageTv
+                .setText(String.valueOf(mSelectedMovie.getUserRating()));
 
-        // Set the year
+        /* Set the year */
         String movieReleaseFullDate = mSelectedMovie.getMovieReleaseDate();
         String[] datePart = movieReleaseFullDate.split("-");
         String year = datePart[0];
 
         detailBinding.movieDetailReleaseYear.setText(year);
 
-        // Set the synopsis
+        /* Set the synopsis */
         detailBinding.movieDetailDescriptionTv.setText(mSelectedMovie.getMovieSynopsis());
 
-        // Setup the favorites button
-        // Check if the movie is a favorite
+        /* Setup the favorites button */
         favorite = FindFavorites.isFavorite(context, mSelectedMovie);
+
         if (favorite) {
             detailBinding.movieDetailFavoritesButton
                     .setImageResource(R.drawable.ic_favorite_black_24px);
@@ -94,7 +100,7 @@ public class MovieDetailActivity extends AppCompatActivity {
                     .setImageResource(R.drawable.ic_favorite_border_black_24px);
         }
 
-        // Set a clickListener to the favorites button
+        /* Set a clickListener to the favorites button */
         detailBinding.movieDetailFavoritesButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -114,28 +120,30 @@ public class MovieDetailActivity extends AppCompatActivity {
             }
         });
 
-        // Add the reviews fragment
-        FragmentManager reviewFragmentManager = getSupportFragmentManager();
-        FragmentTransaction reviewTransaction = reviewFragmentManager.beginTransaction();
-        ReviewListViewFragment reviewListViewFragment = (ReviewListViewFragment)
-                reviewFragmentManager.findFragmentById(R.id.fragment_review_recycler_view);
+        /* Add the reviews fragment */
+        FragmentManager reviewManager = getSupportFragmentManager();
+        FragmentTransaction reviewTransaction = reviewManager.beginTransaction();
 
-        if (reviewListViewFragment == null) reviewListViewFragment = new ReviewListViewFragment();
+        ReviewFragment reviewFragment = (ReviewFragment)
+                reviewManager.findFragmentById(R.id.fragment_review_recycler_view);
 
-        reviewTransaction.replace(R.id.movie_detail_fragment_reviews_container_rv, reviewListViewFragment)
+        if (reviewFragment == null) reviewFragment = new ReviewFragment();
+
+        reviewTransaction.replace(R.id.movie_detail_fragment_reviews_container_rv, reviewFragment)
                 .commit();
-        reviewListViewFragment.setMovieId(mSelectedMovie.getMovieId());
+        reviewFragment.setMovieId(mSelectedMovie.getMovieId());
 
-        // Add the videos fragment
-        FragmentManager videoFragmentManager = getSupportFragmentManager();
-        FragmentTransaction videoTransaction = videoFragmentManager.beginTransaction();
-        VideoListViewFragment videoListViewFragment = (VideoListViewFragment)
-                reviewFragmentManager.findFragmentById(R.id.fragment_video_recycler_view);
+        /* Add the videos fragment */
+        FragmentManager videoManager = getSupportFragmentManager();
+        FragmentTransaction videoTransaction = videoManager.beginTransaction();
 
-        if (videoListViewFragment == null) videoListViewFragment = new VideoListViewFragment();
+        VideoFragment videoFragment = (VideoFragment)
+                videoManager.findFragmentById(R.id.fragment_video_recycler_view);
 
-        videoTransaction.replace(R.id.movie_detail_fragment_trailers_container, videoListViewFragment)
+        if (videoFragment == null) videoFragment = new VideoFragment();
+
+        videoTransaction.replace(R.id.movie_detail_fragment_trailers_container, videoFragment)
                 .commit();
-        videoListViewFragment.setMovieId(mSelectedMovie.getMovieId());
+        videoFragment.setMovieId(mSelectedMovie.getMovieId());
     }
 }
