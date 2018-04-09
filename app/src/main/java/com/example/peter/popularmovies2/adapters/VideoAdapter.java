@@ -7,8 +7,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.example.peter.popularmovies2.R;
+import com.example.peter.popularmovies2.app.Constants;
 import com.example.peter.popularmovies2.model.Video;
 import com.example.peter.popularmovies2.utils.NetworkUtils;
 import com.squareup.picasso.Picasso;
@@ -81,24 +83,38 @@ public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.VideoAdapter
     class VideoAdapterViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
 
         final ImageView videoImageThumbnail;
+        final ImageView shareButton;
 
         VideoAdapterViewHolder(View itemView) {
             super(itemView);
 
-            videoImageThumbnail = itemView.findViewById(R.id.movie_detail_poster_small_iv);
+            videoImageThumbnail = itemView.findViewById(R.id.video_list_item_video_thumbnail);
+            shareButton = itemView.findViewById(R.id.video_list_item_share_button);
 
-            itemView.setOnClickListener(this);
+            videoImageThumbnail.setOnClickListener(this);
+            shareButton.setOnClickListener(this);
         }
 
         @Override
         public void onClick(View v) {
+
             int clickedPosition = getAdapterPosition();
             Video currentVideo = mVideos.get(clickedPosition);
-            mClickHandler.onClick(currentVideo);
+
+            switch (v.getId()){
+
+                case R.id.video_list_item_video_thumbnail:
+                    mClickHandler.onClick(currentVideo, Constants.LAUNCH_VIDEO);
+                    break;
+
+                case R.id.video_list_item_share_button:
+                    mClickHandler.onClick(currentVideo, Constants.SHARE_VIDEO);
+                    break;
+            }
         }
     }
 
     public interface VideoAdapterOnClickHandler {
-        void onClick(Video currentVideo);
+        void onClick(Video currentVideo, int intentType);
     }
 }

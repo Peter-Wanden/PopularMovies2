@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="wrap_content"
     android:layout_height="match_parent"
@@ -8,7 +9,7 @@
 
     <!-- Trailer thumbnail -->
     <ImageView
-        android:id="@+id/movie_detail_poster_small_iv"
+        android:id="@+id/video_list_item_video_thumbnail"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:background="@drawable/rectangle_square_edge"
@@ -23,10 +24,22 @@
         android:layout_height="wrap_content"
         android:src="@drawable/ic_play_circle_outline_black_24dp"
         android:background="@android:color/transparent"
-        app:layout_constraintBottom_toBottomOf="@id/movie_detail_poster_small_iv"
-        app:layout_constraintEnd_toEndOf="@id/movie_detail_poster_small_iv"
-        app:layout_constraintStart_toStartOf="@id/movie_detail_poster_small_iv"
-        app:layout_constraintTop_toTopOf="@id/movie_detail_poster_small_iv"
+        app:layout_constraintBottom_toBottomOf="@id/video_list_item_video_thumbnail"
+        app:layout_constraintEnd_toEndOf="@id/video_list_item_video_thumbnail"
+        app:layout_constraintStart_toStartOf="@id/video_list_item_video_thumbnail"
+        app:layout_constraintTop_toTopOf="@id/video_list_item_video_thumbnail"
         android:contentDescription="@string/press_to_play_trailer_on_youtube" />
+
+    <ImageView
+        android:id="@+id/video_list_item_share_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_share_black_24dp"
+        android:contentDescription="@string/share_video"
+        android:background="@android:color/transparent"
+        android:layout_marginTop="12dp"
+        app:layout_constraintStart_toStartOf="@id/video_list_item_video_thumbnail"
+        app:layout_constraintEnd_toEndOf="@id/video_list_item_video_thumbnail"
+        app:layout_constraintTop_toBottomOf="@+id/video_list_item_video_thumbnail"/>
 
 </android.support.constraint.ConstraintLayout>

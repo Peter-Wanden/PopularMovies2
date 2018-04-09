@@ -19,12 +19,17 @@ public class Constants {
     public static final String API_KEY_VALUE = BuildConfig.API_KEY;
     public static final String YT_BASE_THUMBNAIL_IMAGE_URL = "https://img.youtube.com/vi";
     public static final String YT_VIDEO_URL = "http://www.youtube.com/watch?v=";
+
     // Search types
     public static final int MOST_POPULAR = 0;
     public static final int HIGHEST_RATED = 1;
     public static final String POPULARITY = "popular";
     public static final String RATING = "top_rated";
     public static final String YT_THUMBNAIL_URL_END_POINT = "0.jpg";
+
+    // Intent Types
+    public static final int LAUNCH_VIDEO = 0;
+    public static final int SHARE_VIDEO = 1;
 
     /* Image elements */
     // Image sizes

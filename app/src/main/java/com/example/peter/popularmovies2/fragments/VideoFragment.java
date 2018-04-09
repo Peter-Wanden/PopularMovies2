@@ -8,6 +8,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.LoaderManager;
+import android.support.v4.app.ShareCompat;
 import android.support.v4.content.Loader;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -15,6 +16,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.peter.popularmovies2.R;
 import com.example.peter.popularmovies2.adapters.VideoAdapter;
@@ -23,6 +25,7 @@ import com.example.peter.popularmovies2.model.Video;
 import com.example.peter.popularmovies2.utils.NetworkUtils;
 import com.example.peter.popularmovies2.utils.VideoLoader;
 
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Objects;
 
@@ -103,19 +106,46 @@ public class VideoFragment extends Fragment implements
         mMovieId = movieId;
     }
 
-    /* Implements the click interface in the VideoAdapter */
+    /* Implements the intents for the click interface in the VideoAdapter */
     @Override
-    public void onClick(Video currentVideo) {
-        Intent youTubeAppIntent = new Intent(Intent.ACTION_VIEW,
-                Uri.parse("vnd.youtube:" + currentVideo.getVideoKey()));
+    public void onClick(Video currentVideo, int intentType) {
 
-        Intent browserIntent = new Intent(Intent.ACTION_VIEW,
-                Uri.parse(Constants.YT_VIDEO_URL));
+        switch (intentType){
 
-        try {
-            Objects.requireNonNull(getActivity()).startActivity(youTubeAppIntent);
-        } catch (ActivityNotFoundException appNotFoundLaunchBrowser) {
-            getActivity().startActivity(browserIntent);
+            // Launch a video either in the YouTube app or in a browser
+            case Constants.LAUNCH_VIDEO:
+
+                Intent youTubeAppIntent = new Intent(Intent.ACTION_VIEW,
+                        Uri.parse("vnd.youtube:" + currentVideo.getVideoKey()));
+
+                Intent browserIntent = new Intent(Intent.ACTION_VIEW,
+                        Uri.parse(Constants.YT_VIDEO_URL + currentVideo.getVideoKey()));
+
+                try {
+                    Objects.requireNonNull(getActivity()).startActivity(youTubeAppIntent);
+                } catch (ActivityNotFoundException appNotFoundLaunchBrowser) {
+                    getActivity().startActivity(browserIntent);
+                }
+                break;
+
+            // Create a simple share intent to share the video URL
+            case Constants.SHARE_VIDEO:
+
+                // Define the variables
+                String mimeType = "text/plain";
+                String title = "Share this video";
+                String urlToShare = Uri.parse(Constants.YT_VIDEO_URL + currentVideo.getVideoKey())
+                        .toString();
+
+                ShareCompat
+                        .IntentBuilder
+                        .from(Objects.requireNonNull(getActivity()))
+                        .setType(mimeType)
+                        .setChooserTitle(title)
+                        .setText(urlToShare)
+                        .startChooser();
+
+                break;
         }
     }
 }
