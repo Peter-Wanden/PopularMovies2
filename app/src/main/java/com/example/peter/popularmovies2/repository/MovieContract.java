@@ -4,6 +4,9 @@ import android.content.ContentResolver;
 import android.net.Uri;
 import android.provider.BaseColumns;
 
+/**
+ * Contract
+ */
 public class MovieContract {
 
     public static final String PATH_MOVIE = "movie";

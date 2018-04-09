@@ -79,44 +79,9 @@ public class Video implements Parcelable {
         this.mVideoType = in.readString();
     }
 
-    /* Returns the movie ID */
-    public int getMovieId() {
-        return mMovieId;
-    }
-
-    /* Returns the video ID */
-    public String getVideoId() {
-        return mVideoId;
-    }
-
     /* Returns the video key */
     public String getVideoKey() {
         return mVideoKey;
-    }
-
-    /* Returns the video name */
-    public String getVideoName() {
-        return mVideoName;
-    }
-
-    /* Returns the video site */
-    public String getVideoSite() {
-        return mVideoSite;
-    }
-
-    /* Returns the video size (in pixels) */
-    public int getVideoSize() {
-        return mVideoSize;
-    }
-
-    /* Returns the video's type */
-    public String getVideoType() {
-        return mVideoType;
-    }
-
-    /* Sets the movie ID */
-    public void setMovieId(int movieId) {
-        mMovieId = movieId;
     }
 
     /* Used by Parcelable */

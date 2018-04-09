@@ -15,6 +15,9 @@ import com.example.peter.popularmovies2.repository.MovieContract.MovieEntry;
 
 import java.util.Objects;
 
+/**
+ * Content Provider
+ */
 public class MovieContentProvider extends ContentProvider {
 
     private static final String TAG = MovieContentProvider.class.getSimpleName();

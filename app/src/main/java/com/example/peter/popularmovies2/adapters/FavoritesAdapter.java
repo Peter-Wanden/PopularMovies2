@@ -18,7 +18,7 @@ import com.example.peter.popularmovies2.utils.NetworkUtils;
 import com.squareup.picasso.Picasso;
 
 /**
- * This adapter uses a cursor instead of an ArrayList as its data source.
+ * This adapter uses a cursor as its data source.
  */
 public class FavoritesAdapter extends
         RecyclerView.Adapter<FavoritesAdapter.FavoritesAdapterViewHolder> {
@@ -64,6 +64,7 @@ public class FavoritesAdapter extends
         favoritesAdapterViewHolder.movieTitleTextView.setText(movieTitle);
 
         if (imagePath.length() == 0) {
+
             // Swap the visibilities of the various views
             favoritesAdapterViewHolder.listItemImageView.setVisibility(View.GONE);
             favoritesAdapterViewHolder.noPosterAvailableTextView.setVisibility(View.VISIBLE);

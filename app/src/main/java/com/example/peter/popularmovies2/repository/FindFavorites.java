@@ -7,6 +7,9 @@ import android.net.Uri;
 import com.example.peter.popularmovies2.model.Movie;
 import com.example.peter.popularmovies2.repository.MovieContract.MovieEntry;
 
+/**
+ * Finds if a movie is in the favorites database
+ */
 public class FindFavorites {
 
     public static boolean isFavorite(Context context, Movie movie) {

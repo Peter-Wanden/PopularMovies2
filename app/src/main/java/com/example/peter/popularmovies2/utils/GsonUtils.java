@@ -70,7 +70,6 @@ class GsonUtils {
         ArrayList<Review> results;
     }
 
-
     static ArrayList<Video> getVideos(int movieId) {
 
         /* Create the URL object */

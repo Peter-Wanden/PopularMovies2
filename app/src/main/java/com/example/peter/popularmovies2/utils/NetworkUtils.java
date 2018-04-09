@@ -29,9 +29,9 @@ public class NetworkUtils {
     private static final String LOG_TAG = NetworkUtils.class.getSimpleName();
 
     /**
-     * Create a private constructor because no one should ever create a {@link NetworkUtils}
-     * object. This class is only meant to hold static variables and methods, which can be accessed
-     * directly from the class name tMDBApiUtils (an object instance of QueryUtils is not needed).
+     * This class has an empty constructor as it is only meant to hold static variables
+     * and methods, which can be accessed directly from the class name (an object instance of
+     * QueryUtils is not needed).
      */
     private NetworkUtils() {
     }

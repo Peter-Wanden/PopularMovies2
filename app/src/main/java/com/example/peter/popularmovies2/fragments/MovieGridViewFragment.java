@@ -9,7 +9,6 @@ import android.support.v4.app.LoaderManager;
 import android.support.v4.content.Loader;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -33,7 +32,7 @@ public class MovieGridViewFragment extends Fragment implements
         LoaderManager.LoaderCallbacks<ArrayList<Movie>>,
         PosterAdapter.PosterAdapterOnClickHandler {
 
-    private static final String TAG = MovieGridViewFragment.class.getSimpleName();
+    // private static final String TAG = MovieGridViewFragment.class.getSimpleName();
 
     // Loader id
     private static final int POSTER_LOADER_ID = 100;
@@ -86,7 +85,8 @@ public class MovieGridViewFragment extends Fragment implements
         /* GridLayoutManager is responsible for measuring and positioning item views within a
          * RecyclerView into a grid layout.
          */
-        mLayoutManager = new GridLayoutManager(getActivity(), getResources().getInteger(R.integer.num_columns));
+        mLayoutManager = new GridLayoutManager(getActivity(), getResources()
+                .getInteger(R.integer.num_columns));
         mLayoutManager.getHeight();
 
         /* Connect the layout manager to the RecyclerView */
@@ -96,11 +96,11 @@ public class MovieGridViewFragment extends Fragment implements
         mRecyclerView.setAdapter(mPosterAdapter);
 
         /* Developer docs recommend using this performance improvement if all of the views are the
-         * same size. They are actually not, as some are text and some are images. The use of
-         * setHasFixedSize here is to force the views to be of equal size.
+         * same size, which they are.
          */
         mRecyclerView.setHasFixedSize(true);
 
+        /* Check for connectivity */
         if (NetworkUtils.getNetworkStatus(Objects.requireNonNull(getActivity()))) {
 
             /* Ensures a loader is initialized and active. If the loader doesn't already
@@ -108,13 +108,17 @@ public class MovieGridViewFragment extends Fragment implements
              * starts the loader. Otherwise the last created loader is re-used.
              */
             getLoaderManager().initLoader(POSTER_LOADER_ID, null, this);
+        } else {
+
+            /* Display no network state */
+            mLoadingIndicator.setVisibility(View.GONE);
+            mEmptyStateTextView.setText(R.string.empty_state_text_view_no_network);
         }
     }
 
     @NonNull
     @Override
     public Loader<ArrayList<Movie>> onCreateLoader(int loaderId, @Nullable Bundle bundle) {
-        Log.e(TAG, "onCreateLoader called");
         return new MovieLoader(getActivity(), mMovieSearchType);
     }
 
@@ -124,26 +128,17 @@ public class MovieGridViewFragment extends Fragment implements
         mLoadingIndicator.setVisibility(View.GONE);
         // Assume no data.
         mEmptyStateTextView.setText(R.string.movie_discovery_no_movies);
-        // However if there is data.
+        // If there is data.
         if (movies != null && !movies.isEmpty()) {
             // Update the data source in the adapter.
             mPosterAdapter.updateMovies(movies);
             // Turn off the empty state text view.
             mEmptyStateTextView.setVisibility(View.GONE);
-            Log.e(TAG, "OnLoadFinished called - data set swapped");
-//            if(mListState != null) {
-//                Log.e(TAG, "mLayoutManager is not null - updating the list state");
-//                mLayoutManager.onRestoreInstanceState(mListState);
-//            } else {
-//                Log.e(TAG, "mListState is null");
-//            }
-
         }
     }
 
     @Override
     public void onLoaderReset(@NonNull Loader<ArrayList<Movie>> loader) {
-        Log.e(TAG, "Loader has been reset");
         // Clear out the data in the adapter
         mPosterAdapter.updateMovies(null);
     }
@@ -151,7 +146,6 @@ public class MovieGridViewFragment extends Fragment implements
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        Log.e(TAG, "OnAttach called");
         // Make sure the host activity has implemented the OnMovieSelectedListener callback interface
         try {
             mMovieCallback = (OnMovieSelectedListener) context;
@@ -176,34 +170,4 @@ public class MovieGridViewFragment extends Fragment implements
     public void setMovieSearchType (int searchType) {
         mMovieSearchType = searchType;
     }
-
-//    @Override
-//    public void onSaveInstanceState(@NonNull Bundle outState) {
-//        super.onSaveInstanceState(outState);
-//        // Save the list state
-//        mListState = mLayoutManager.onSaveInstanceState();
-//        Log.e(TAG, "Out state saved: " + mListState);
-//        outState.putParcelable("list_state_key", mListState);
-//    }
-
-//    @Override
-//    public void onViewStateRestored(@Nullable Bundle savedInstanceState) {
-//        if(savedInstanceState != null) {
-//            Log.e(TAG, "onViewStateRestored - SavedInstanceState retrieved");
-//            if(savedInstanceState.containsKey("list_state_key")) {
-//                mListState = savedInstanceState.getParcelable("list_state_key");
-//                Log.e(TAG, "onViewStateRestored - mListState updated");
-//            }
-//        }
-//        super.onViewStateRestored(savedInstanceState);
-//    }
-
-//    @Override
-//    public void onResume() {
-//        super.onResume();
-//        if (mListState != null) {
-//            mLayoutManager.onRestoreInstanceState(mListState);
-//            Log.e(TAG, "LayoutManager state restored");
-//        }
-//    }
 }

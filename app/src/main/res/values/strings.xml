@@ -53,4 +53,5 @@
     <string name="no_videos_available">No videos available for this movie</string>
     <string name="movie_detail_description_title">overview</string>
     <string name="press_to_play_trailer_on_youtube">Press to play trailer on youtube</string>
+    <string name="empty_state_text_view_no_network">No network connection.</string>
 </resources>
