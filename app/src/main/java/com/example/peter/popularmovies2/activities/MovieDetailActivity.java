@@ -51,7 +51,7 @@ public class MovieDetailActivity extends AppCompatActivity {
             if (backdropUrl != null) {
                 String backDrop = backdropUrl.toString();
 
-                Picasso.with(this)
+                Picasso.get()
                         .load(backDrop)
                         .into(detailBinding.movieDetailTrailerThumbnailIv);
             }
@@ -65,7 +65,7 @@ public class MovieDetailActivity extends AppCompatActivity {
             if (posterUrl != null) {
                 String poster = posterUrl.toString();
 
-                Picasso.with(this)
+                Picasso.get()
                         .load(poster)
                         .into(detailBinding.movieDetailPosterSmallIv);
             }

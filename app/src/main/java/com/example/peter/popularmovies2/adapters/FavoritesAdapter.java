@@ -86,7 +86,7 @@ public class FavoritesAdapter extends
             favoritesAdapterViewHolder.noPosterAvailableTextView.setVisibility(View.INVISIBLE);
             favoritesAdapterViewHolder.listItemImageView.setVisibility(View.VISIBLE);
 
-            Picasso.with(mContext)
+            Picasso.get()
                     .load(String.valueOf(NetworkUtils.getMovieImageUrl
                             (Constants.IMAGE_SIZE_MEDIUM, imagePath)))
                     .placeholder(R.drawable.ic_powered_by_rectangle_blue).fit()

@@ -16,7 +16,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.peter.popularmovies2.R;
 import com.example.peter.popularmovies2.adapters.VideoAdapter;
@@ -25,7 +24,6 @@ import com.example.peter.popularmovies2.model.Video;
 import com.example.peter.popularmovies2.utils.NetworkUtils;
 import com.example.peter.popularmovies2.utils.VideoLoader;
 
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.Objects;
 
@@ -133,7 +131,7 @@ public class VideoFragment extends Fragment implements
 
                 // Define the variables
                 String mimeType = "text/plain";
-                String title = "Share this video";
+                String title = getString(R.string.share_this_video);
                 String urlToShare = Uri.parse(Constants.YT_VIDEO_URL + currentVideo.getVideoKey())
                         .toString();
 

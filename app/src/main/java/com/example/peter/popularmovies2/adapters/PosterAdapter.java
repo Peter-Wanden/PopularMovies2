@@ -66,6 +66,7 @@ public class PosterAdapter extends RecyclerView.Adapter<PosterAdapter.PosterAdap
     public PosterAdapterViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int viewType) {
 
         int layoutIdForListItem = R.layout.poster_item_view;
+
         View view = LayoutInflater
                 .from(mContext)
                 .inflate(layoutIdForListItem, viewGroup, false);
@@ -123,7 +124,7 @@ public class PosterAdapter extends RecyclerView.Adapter<PosterAdapter.PosterAdap
             posterAdapterViewHolder.noPosterAvailableTextView.setVisibility(View.INVISIBLE);
             posterAdapterViewHolder.listItemImageView.setVisibility(View.VISIBLE);
 
-            Picasso.with(mContext)
+            Picasso.get()
                     .load(String.valueOf(NetworkUtils.getMovieImageUrl
                             (Constants.IMAGE_SIZE_MEDIUM, currentMovie.getPosterImagePath())))
                     .placeholder(R.drawable.ic_powered_by_rectangle_blue).fit()

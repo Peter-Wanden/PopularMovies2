@@ -17,7 +17,6 @@ import com.example.peter.popularmovies2.fragments.MovieGridViewFragment;
 import com.example.peter.popularmovies2.model.Movie;
 
 /**
- * TODO - When everything is running, implement suggestions.
  * Manages the TopRated, Popular and Movie fragments.
  */
 public class MovieDiscoveryActivity extends AppCompatActivity implements

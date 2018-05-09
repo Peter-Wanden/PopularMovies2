@@ -7,7 +7,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.Toast;
 
 import com.example.peter.popularmovies2.R;
 import com.example.peter.popularmovies2.app.Constants;
@@ -59,7 +58,7 @@ public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.VideoAdapter
         } else {
             videoAdapterViewHolder.videoImageThumbnail.setVisibility(View.VISIBLE);
 
-            Picasso.with(mContext)
+            Picasso.get()
                     .load(String.valueOf(videoUrl))
                     .into(videoAdapterViewHolder.videoImageThumbnail);
         }

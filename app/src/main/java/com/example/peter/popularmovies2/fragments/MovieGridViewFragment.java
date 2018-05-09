@@ -28,7 +28,10 @@ import java.util.Objects;
  * Displays a list of movies in a grid view
  */
 
-public class MovieGridViewFragment extends Fragment implements
+public class MovieGridViewFragment
+        extends
+        Fragment
+        implements
         LoaderManager.LoaderCallbacks<ArrayList<Movie>>,
         PosterAdapter.PosterAdapterOnClickHandler {
 
